@@ -1,0 +1,1083 @@
+\documentclass[11pt]{article}
+
+% ============================================================
+% Packages
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat=1.18}
+
+% ============================================================
+% Document Formatting
+% ============================================================
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+% ============================================================
+% List Formatting
+% ============================================================
+\setlist[enumerate]{
+    leftmargin=2em,
+    itemsep=0.25em
+}
+
+% ============================================================
+% Solution Environment
+% ============================================================
+\newenvironment{solution}
+    {\par\noindent\textbf{Solution.}\par}
+    {\par}
+
+% ============================================================
+% Link Styling
+% ============================================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan
+}
+
+% ============================================================
+% Metadata
+% ============================================================
+\title{Ordinary Differential Equations}
+\author{Chris Ritter}
+\date{August 20, 2026}
+
+% ============================================================
+% Document
+% ============================================================
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{Integral Curves}
+% ============================================================
+
+An \textbf{ordinary differential equation (ODE)} describes a
+relationship between an unknown function and one or more of its
+derivatives.
+
+For example,
+
+\[
+\frac{dy}{dt}=ay-b,
+\]
+
+where $a$ and $b$ are constants.
+
+A \textbf{solution} to a differential equation is a function that
+satisfies the equation. The graph of a solution is called an
+\textbf{integral curve}.
+
+% ------------------------------------------------------------
+\subsection{A Population Model}
+% ------------------------------------------------------------
+
+Consider the population model
+
+\[
+\frac{dp}{dt}=rp-k,
+\]
+
+where $p(t)$ represents the population at time $t$, $r$ is a
+proportional growth rate, and $k$ is a constant rate of population
+loss.
+
+Suppose
+
+\[
+r=\frac{1}{2},
+\qquad
+k=450.
+\]
+
+Then
+
+\[
+\frac{dp}{dt}
+=
+\frac{1}{2}p-450.
+\]
+
+Factoring,
+
+\[
+\frac{dp}{dt}
+=
+\frac{1}{2}(p-900).
+\]
+
+% ------------------------------------------------------------
+\subsection{Separation of Variables}
+% ------------------------------------------------------------
+
+To solve the equation, separate the variables:
+
+\[
+\frac{dp}{p-900}
+=
+\frac{1}{2}\,dt.
+\]
+
+Integrating both sides,
+
+\[
+\int \frac{dp}{p-900}
+=
+\int \frac{1}{2}\,dt.
+\]
+
+Therefore,
+
+\[
+\ln|p-900|
+=
+\frac{t}{2}+C.
+\]
+
+Exponentiating,
+
+\[
+|p-900|
+=
+e^{t/2+C}.
+\]
+
+Since the constant can absorb the sign, we write
+
+\[
+p-900
+=
+\alpha e^{t/2},
+\]
+
+where $\alpha$ is an arbitrary constant.
+
+Thus,
+
+\[
+\boxed{
+p(t)=900+\alpha e^{t/2}
+}.
+\]
+
+% ------------------------------------------------------------
+\subsection{Applying an Initial Condition}
+% ------------------------------------------------------------
+
+Suppose the initial population is
+
+\[
+p(0)=p_0.
+\]
+
+Substituting $t=0$,
+
+\[
+p_0
+=
+900+\alpha e^0.
+\]
+
+Since $e^0=1$,
+
+\[
+p_0=900+\alpha.
+\]
+
+Therefore,
+
+\[
+\alpha=p_0-900.
+\]
+
+The solution satisfying the initial condition is
+
+\[
+\boxed{
+p(t)
+=
+900+(p_0-900)e^{t/2}
+}.
+\]
+
+% ------------------------------------------------------------
+\subsection{Equilibrium Population}
+% ------------------------------------------------------------
+
+An equilibrium occurs when the population does not change. Thus,
+
+\[
+\frac{dp}{dt}=0.
+\]
+
+For the population model,
+
+\[
+\frac{1}{2}p-450=0.
+\]
+
+Solving,
+
+\[
+p=900.
+\]
+
+Therefore,
+
+\[
+\boxed{p=900}
+\]
+
+is the equilibrium population.
+
+Notice that the general solution
+
+\[
+p(t)=900+\alpha e^{t/2}
+\]
+
+contains the equilibrium solution when $\alpha=0$.
+
+% ============================================================
+\section{The General Equation \texorpdfstring{$dy/dt=ay-b$}{dy/dt=ay-b}}
+% ============================================================
+
+Consider the differential equation
+
+\[
+\frac{dy}{dt}=ay-b,
+\]
+
+where $a$ and $b$ are constants.
+
+Factor out $a$:
+
+\[
+\frac{dy}{dt}
+=
+a\left(y-\frac{b}{a}\right).
+\]
+
+Assuming $a\neq0$, separate the variables:
+
+\[
+\frac{dy}{y-b/a}
+=
+a\,dt.
+\]
+
+Integrating both sides,
+
+\[
+\int \frac{dy}{y-b/a}
+=
+\int a\,dt.
+\]
+
+Therefore,
+
+\[
+\ln\left|y-\frac{b}{a}\right|
+=
+at+C.
+\]
+
+Exponentiating,
+
+\[
+y-\frac{b}{a}
+=
+\alpha e^{at}.
+\]
+
+Thus,
+
+\[
+\boxed{
+y(t)
+=
+\frac{b}{a}
++
+\alpha e^{at}
+}.
+\]
+
+% ------------------------------------------------------------
+\subsection{Applying an Initial Condition}
+% ------------------------------------------------------------
+
+Suppose
+
+\[
+y(0)=y_0.
+\]
+
+Then
+
+\[
+y_0
+=
+\frac{b}{a}
++
+\alpha e^0.
+\]
+
+Since $e^0=1$,
+
+\[
+y_0
+=
+\frac{b}{a}
++
+\alpha.
+\]
+
+Therefore,
+
+\[
+\alpha
+=
+y_0-\frac{b}{a}.
+\]
+
+Hence,
+
+\[
+\boxed{
+y(t)
+=
+\frac{b}{a}
++
+\left(
+y_0-\frac{b}{a}
+\right)e^{at}
+}.
+\]
+
+% ============================================================
+\section{Differential Equations and Initial-Value Problems}
+% ============================================================
+
+It is important to distinguish between a differential equation and an
+initial-value problem.
+
+A \textbf{differential equation} specifies a relationship involving an
+unknown function and its derivatives.
+
+For example,
+
+\[
+\frac{dy}{dt}=ay-b.
+\]
+
+The general solution is
+
+\[
+y(t)
+=
+\frac{b}{a}
++
+\alpha e^{at}.
+\]
+
+This represents a family of solutions, with each value of $\alpha$
+giving a different solution.
+
+An \textbf{initial condition} selects one particular solution from this
+family. For example,
+
+\[
+y(0)=y_0.
+\]
+
+Therefore,
+
+\[
+\boxed{
+\text{Differential Equation}
++
+\text{Initial Condition}
+=
+\text{Initial-Value Problem (IVP)}
+}.
+\]
+
+% ============================================================
+\section{Population Growth and Decay}
+% ============================================================
+
+A common population model is
+
+\[
+\frac{dp}{dt}=rp-k.
+\]
+
+Here,
+
+\begin{itemize}
+    \item $p(t)$ is the population at time $t$,
+    \item $r$ is the proportional growth rate,
+    \item $k$ is a constant rate of population loss.
+\end{itemize}
+
+The equilibrium population occurs when
+
+\[
+\frac{dp}{dt}=0.
+\]
+
+Therefore,
+
+\[
+rp-k=0,
+\]
+
+which gives
+
+\[
+p=\frac{k}{r}.
+\]
+
+Thus, the equilibrium population is
+
+\[
+\boxed{
+p_{\mathrm{eq}}=\frac{k}{r}
+}.
+\]
+
+The general solution is
+
+\[
+\boxed{
+p(t)
+=
+\frac{k}{r}
++
+\left(
+p_0-\frac{k}{r}
+\right)e^{rt}
+}.
+\]
+
+% ------------------------------------------------------------
+\subsection{Interpretation of the Solution}
+% ------------------------------------------------------------
+
+The solution
+
+\[
+p(t)
+=
+\frac{k}{r}
++
+\left(
+p_0-\frac{k}{r}
+\right)e^{rt}
+\]
+
+can be understood by comparing the initial population $p_0$ with the
+equilibrium population $k/r$.
+
+If
+
+\[
+p_0=\frac{k}{r},
+\]
+
+then
+
+\[
+p(t)=\frac{k}{r}
+\]
+
+for all $t$.
+
+If
+
+\[
+p_0>\frac{k}{r},
+\]
+
+then the initial population lies above equilibrium.
+
+If
+
+\[
+p_0<\frac{k}{r},
+\]
+
+then the initial population lies below equilibrium.
+
+% ============================================================
+\section{Falling Objects}
+% ============================================================
+
+A falling object provides another important application of first-order
+differential equations.
+
+Suppose an object has mass $m$ and is subject to gravity and air
+resistance. Assume that the drag force is proportional to velocity.
+
+The model is
+
+\[
+m\frac{dv}{dt}=mg-\gamma v,
+\]
+
+where
+
+\begin{itemize}
+    \item $m$ is the mass of the object,
+    \item $g$ is the acceleration due to gravity,
+    \item $v(t)$ is the velocity,
+    \item $\gamma>0$ is the drag coefficient.
+\end{itemize}
+
+Dividing by $m$ gives
+
+\[
+\frac{dv}{dt}
+=
+g-\frac{\gamma}{m}v.
+\]
+
+This has the same basic form as the previous equations.
+
+% ------------------------------------------------------------
+\subsection{Solving the Falling-Object Equation}
+% ------------------------------------------------------------
+
+Rewrite the equation as
+
+\[
+\frac{dv}{dt}
+=
+-\frac{\gamma}{m}
+\left(
+v-\frac{mg}{\gamma}
+\right).
+\]
+
+Separate the variables:
+
+\[
+\frac{dv}
+{v-mg/\gamma}
+=
+-\frac{\gamma}{m}\,dt.
+\]
+
+Integrating,
+
+\[
+\ln\left|
+v-\frac{mg}{\gamma}
+\right|
+=
+-\frac{\gamma}{m}t+C.
+\]
+
+Exponentiating,
+
+\[
+v-\frac{mg}{\gamma}
+=
+\alpha e^{-\gamma t/m}.
+\]
+
+Therefore,
+
+\[
+v(t)
+=
+\frac{mg}{\gamma}
++
+\alpha e^{-\gamma t/m}.
+\]
+
+If the initial velocity is
+
+\[
+v(0)=v_0,
+\]
+
+then
+
+\[
+v_0
+=
+\frac{mg}{\gamma}
++
+\alpha.
+\]
+
+Thus,
+
+\[
+\alpha
+=
+v_0-\frac{mg}{\gamma}.
+\]
+
+The solution is therefore
+
+\[
+\boxed{
+v(t)
+=
+\frac{mg}{\gamma}
++
+\left(
+v_0-\frac{mg}{\gamma}
+\right)
+e^{-\gamma t/m}
+}.
+\]
+
+% ------------------------------------------------------------
+\subsection{Terminal Velocity}
+% ------------------------------------------------------------
+
+The quantity
+
+\[
+\boxed{
+v_T=\frac{mg}{\gamma}
+}
+\]
+
+is called the \textbf{terminal velocity}.
+
+As $t\to\infty$,
+
+\[
+e^{-\gamma t/m}\longrightarrow0.
+\]
+
+Therefore,
+
+\[
+\lim_{t\to\infty}v(t)
+=
+\frac{mg}{\gamma}.
+\]
+
+Hence,
+
+\[
+\boxed{
+v(t)\longrightarrow\frac{mg}{\gamma}
+\qquad\text{as }t\to\infty.
+}
+\]
+
+Thus, the velocity approaches a limiting value rather than increasing
+without bound.
+
+% ------------------------------------------------------------
+\subsection{Example: Falling Object}
+% ------------------------------------------------------------
+
+Consider a falling object with
+
+\[
+g=9.8,
+\qquad
+m=10,
+\qquad
+\gamma=2.
+\]
+
+Assume the object is initially at rest, so
+
+\[
+v(0)=0.
+\]
+
+The velocity function is
+
+\[
+v(t)
+=
+\frac{mg}{\gamma}
++
+\left(
+v_0-\frac{mg}{\gamma}
+\right)e^{-\gamma t/m}.
+\]
+
+Substituting the given values,
+
+\[
+v(t)
+=
+\frac{(10)(9.8)}{2}
++
+\left(
+0-\frac{(10)(9.8)}{2}
+\right)e^{-(2/10)t}.
+\]
+
+Therefore,
+
+\[
+\boxed{
+v(t)=49-49e^{-0.2t}
+}.
+\]
+
+% ------------------------------------------------------------
+\subsubsection{Finding the Time to Reach the Ground}
+% ------------------------------------------------------------
+
+Suppose the object is dropped from a height of $300$ meters.
+
+Let $s(t)$ denote the distance the object has fallen. Since velocity is
+the derivative of position,
+
+\[
+\frac{ds}{dt}=v(t).
+\]
+
+Thus,
+
+\[
+\frac{ds}{dt}
+=
+49-49e^{-0.2t},
+\qquad
+s(0)=0.
+\]
+
+Integrating,
+
+\[
+\int ds
+=
+\int
+\left(
+49-49e^{-0.2t}
+\right)dt.
+\]
+
+Therefore,
+
+\[
+s(t)
+=
+49t+245e^{-0.2t}+C.
+\]
+
+Using $s(0)=0$,
+
+\[
+0
+=
+49(0)+245e^0+C.
+\]
+
+Hence,
+
+\[
+C=-245.
+\]
+
+Therefore,
+
+\[
+\boxed{
+s(t)=49t+245e^{-0.2t}-245
+}.
+\]
+
+The object reaches the ground when
+
+\[
+s(t^*)=300.
+\]
+
+Thus,
+
+\[
+49t^*
++
+245e^{-0.2t^*}
+-
+245
+=
+300.
+\]
+
+This equation must be solved numerically. The solution is approximately
+
+\[
+\boxed{
+t^*\approx10.51\text{ seconds}.
+}
+\]
+
+% ============================================================
+\section{Classification of Differential Equations}
+% ============================================================
+
+Differential equations can be classified according to several
+different properties.
+
+% ------------------------------------------------------------
+\subsection{A. Number of Independent Variables}
+% ------------------------------------------------------------
+
+A differential equation is called an \textbf{ordinary differential
+equation (ODE)} if there is only one independent variable.
+
+For example,
+
+\[
+\frac{dv}{dt}
+=
+g-\frac{\gamma}{m}v
+\]
+
+is an ODE because the only independent variable is $t$.
+
+A differential equation with more than one independent variable is
+called a \textbf{partial differential equation (PDE)}.
+
+For example, the heat equation can be written as
+
+\[
+\boxed{
+\frac{\partial u}{\partial t}
+=
+\alpha^2
+\frac{\partial^2u}{\partial x^2}
+}.
+\]
+
+Here, $u=u(x,t)$ depends on both $x$ and $t$.
+
+% ------------------------------------------------------------
+\subsection{B. Number of Unknown Functions}
+% ------------------------------------------------------------
+
+A differential equation may involve a single unknown function or
+multiple unknown functions.
+
+A collection of differential equations involving multiple unknown
+functions is called a \textbf{system of differential equations}.
+
+For example,
+
+\[
+\frac{dx}{dt}
+=
+\alpha x-\beta xy,
+\]
+
+\[
+\frac{dy}{dt}
+=
+\gamma xy-\theta y.
+\]
+
+This is a system involving the two unknown functions $x(t)$ and $y(t)$.
+
+% ------------------------------------------------------------
+\subsection{C. Order of a Differential Equation}
+% ------------------------------------------------------------
+
+The \textbf{order} of a differential equation is the order of the
+highest derivative that appears in the equation.
+
+In general, an $n$th-order ODE can be written as
+
+\[
+F\left(
+t,y,y',y'',\ldots,y^{(n)}
+\right)=0.
+\]
+
+An equation can also be written explicitly in terms of its highest
+derivative:
+
+\[
+y^{(n)}
+=
+f\left(
+t,y,y',\ldots,y^{(n-1)}
+\right).
+\]
+
+For example,
+
+\[
+y^{(3)}
++
+2e^t y''
++
+y'
+-
+t^4
+=
+0
+\]
+
+is a third-order differential equation because the highest derivative
+is $y^{(3)}$.
+
+Another example is
+
+\[
+(y')^2+ty'+4y=0.
+\]
+
+This is a first-order differential equation because the highest
+derivative appearing is $y'$.
+
+Solving this equation for $y'$ gives
+
+\[
+(y')^2+ty'+4y=0.
+\]
+
+Using the quadratic formula,
+
+\[
+\boxed{
+y'
+=
+\frac{-t\pm\sqrt{t^2-16y}}{2}
+}.
+\]
+
+% ------------------------------------------------------------
+\subsection{D. Linear vs. Nonlinear}
+% ------------------------------------------------------------
+
+An $n$th-order differential equation
+
+\[
+F\left(
+t,y,y',\ldots,y^{(n)}
+\right)=0
+\]
+
+is \textbf{linear} if it is linear in
+
+\[
+y,\quad y',\quad y'',\quad\ldots,\quad y^{(n)}.
+\]
+
+The most general form of an $n$th-order linear differential equation is
+
+\[
+\boxed{
+a_0(t)y^{(n)}
++
+a_1(t)y^{(n-1)}
++
+\cdots
++
+a_{n-1}(t)y'
++
+a_n(t)y
+=
+g(t)
+}.
+\]
+
+The functions
+
+\[
+a_0(t),a_1(t),\ldots,a_n(t)
+\]
+
+are coefficients that depend only on the independent variable $t$.
+
+% ------------------------------------------------------------
+\subsubsection{Example: Linear Equation}
+% ------------------------------------------------------------
+
+Consider
+
+\[
+\frac{t}{1+t^2}y''
++
+3ty
+=
+\sin(t).
+\]
+
+This equation is
+
+\begin{itemize}
+    \item ordinary, because there is one independent variable $t$;
+    \item second-order, because the highest derivative is $y''$;
+    \item linear, because $y''$ and $y$ appear only to the first power
+    and are not multiplied together.
+\end{itemize}
+
+Therefore, this is an
+
+\[
+\boxed{\text{ordinary, linear, second-order ODE}.}
+\]
+
+% ------------------------------------------------------------
+\subsubsection{Examples of Nonlinear Equations}
+% ------------------------------------------------------------
+
+Consider
+
+\[
+yy'=0.
+\]
+
+This equation is \textbf{nonlinear} because the unknown function $y$
+and its derivative $y'$ are multiplied together.
+
+Similarly,
+
+\[
+y^{(3)}
++
+2e^t y''
++
+yy'
+=
+t^4
+\]
+
+is nonlinear because of the product
+
+\[
+yy'.
+\]
+
+Therefore,
+
+\[
+\boxed{
+y^{(3)}+2e^t y''+yy'=t^4
+}
+\]
+
+is a third-order nonlinear ODE.
+
+\end{document}

@@ -1,0 +1,9 @@
+# Keep only lecture notes in date-named folders.
+/*
+!/.gitignore
+!/[A-Z][a-z][a-z]_[0-9]*/
+
+# Keep the editable source and the finished PDF, not LaTeX build files.
+/[A-Z][a-z][a-z]_[0-9]*/**
+!/[A-Z][a-z][a-z]_[0-9]*/Notes.tex
+!/[A-Z][a-z][a-z]_[0-9]*/Notes.pdf

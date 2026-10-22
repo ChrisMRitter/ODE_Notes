@@ -1,0 +1,791 @@
+\documentclass[11pt]{article}
+
+% ============================================================
+% Packages
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat=1.18}
+
+% ============================================================
+% Document Formatting
+% ============================================================
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+% ============================================================
+% List Formatting
+% ============================================================
+\setlist[enumerate]{
+    leftmargin=2em,
+    itemsep=0.25em
+}
+
+% ============================================================
+% Solution Environment
+% ============================================================
+\newenvironment{solution}
+    {\par\noindent\textbf{Solution.}\par}
+    {\par}
+
+% ============================================================
+% Link Styling
+% ============================================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan
+}
+
+% ============================================================
+% Metadata
+% ============================================================
+\title{Ordinary Differential Equations}
+\author{Chris Ritter}
+\date{August 27, 2026}
+
+% ============================================================
+% Document
+% ============================================================
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{Linear First-Order Equations}
+% ============================================================
+
+A first-order linear differential equation has the form
+
+\[
+y' + p(t)y = g(t).
+\]
+
+The goal is to find an integrating factor $\mu(t)$ such that
+multiplying the entire equation by $\mu(t)$ produces the derivative
+of a product.
+
+% ------------------------------------------------------------
+\subsection{Integrating Factor}
+% ------------------------------------------------------------
+
+We choose
+
+\[
+\mu(t)
+=
+e^{\int p(t)\,dt}.
+\]
+
+Multiplying
+
+\[
+y' + p(t)y = g(t)
+\]
+
+by $\mu(t)$ gives
+
+\[
+\mu y' + p(t)\mu y = \mu g.
+\]
+
+We want the left-hand side to be
+
+\[
+\frac{d}{dt}(\mu y).
+\]
+
+By the product rule,
+
+\[
+\frac{d}{dt}(\mu y)
+=
+\mu' y + \mu y'.
+\]
+
+Therefore, we need
+
+\[
+\mu' = p(t)\mu.
+\]
+
+This is satisfied by
+
+\[
+\mu(t)=e^{\int p(t)\,dt}.
+\]
+
+Thus,
+
+\[
+\frac{d}{dt}(\mu y)=\mu g.
+\]
+
+Integrating both sides gives
+
+\[
+\mu y
+=
+\int \mu(t)g(t)\,dt+C.
+\]
+
+Therefore,
+
+\[
+\boxed{
+y(t)
+=
+\frac{1}{\mu(t)}
+\left(
+\int \mu(t)g(t)\,dt+C
+\right)
+}.
+\]
+
+% ------------------------------------------------------------
+\subsection{Example: Linear Equation}
+% ------------------------------------------------------------
+
+\textbf{Solve}
+
+\[
+\frac{dy}{dt}+\frac12y=t.
+\]
+
+This is in the form
+
+\[
+y'+p(t)y=g(t),
+\]
+
+where
+
+\[
+p(t)=\frac12,
+\qquad
+g(t)=t.
+\]
+
+The integrating factor is
+
+\[
+\mu(t)
+=
+e^{\int \frac12\,dt}
+=
+e^{t/2}.
+\]
+
+Multiply the differential equation by $e^{t/2}$:
+
+\[
+e^{t/2}y'
++
+\frac12e^{t/2}y
+=
+te^{t/2}.
+\]
+
+The left-hand side is the derivative of a product:
+
+\[
+\frac{d}{dt}
+\left(
+e^{t/2}y
+\right)
+=
+te^{t/2}.
+\]
+
+Integrate:
+
+\[
+e^{t/2}y
+=
+\int te^{t/2}\,dt+C.
+\]
+
+Using integration by parts,
+
+\[
+\int te^{t/2}\,dt
+=
+e^{t/2}(2t-4).
+\]
+
+Therefore,
+
+\[
+e^{t/2}y
+=
+e^{t/2}(2t-4)+C.
+\]
+
+Divide by $e^{t/2}$:
+
+\[
+\boxed{
+y(t)=2t-4+Ce^{-t/2}
+}.
+\]
+
+% ============================================================
+\section{Separable Equations}
+% ============================================================
+
+A first-order differential equation
+
+\[
+\frac{dy}{dx}=f(x,y)
+\]
+
+is called \textbf{separable} if it can be written in the form
+
+\[
+M(x)\,dx+N(y)\,dy=0.
+\]
+
+Equivalently, we can write
+
+\[
+N(y)\frac{dy}{dx}=-M(x).
+\]
+
+The important feature is that the $x$-dependent terms and
+$y$-dependent terms can be separated.
+
+% ------------------------------------------------------------
+\subsection{General Method}
+% ------------------------------------------------------------
+
+Suppose we have
+
+\[
+M(x)\,dx+N(y)\,dy=0.
+\]
+
+Let $H_1$ and $H_2$ be antiderivatives satisfying
+
+\[
+H_1'(x)=M(x)
+\]
+
+and
+
+\[
+H_2'(y)=N(y).
+\]
+
+Then
+
+\[
+\frac{d}{dx}H_1(x)
++
+\frac{d}{dx}H_2(y)=0.
+\]
+
+By the chain rule,
+
+\[
+\frac{d}{dx}H_2(y)
+=
+H_2'(y)\frac{dy}{dx}
+=
+N(y)\frac{dy}{dx}.
+\]
+
+Thus,
+
+\[
+\frac{d}{dx}
+\left(
+H_1(x)+H_2(y)
+\right)
+=0.
+\]
+
+Therefore,
+
+\[
+\boxed{
+H_1(x)+H_2(y)=C
+}.
+\]
+
+% ------------------------------------------------------------
+\subsection{Initial Value Problems}
+% ------------------------------------------------------------
+
+Suppose an initial condition
+
+\[
+y(x_0)=y_0
+\]
+
+is given.
+
+Since
+
+\[
+H_1(x)+H_2(y)=C,
+\]
+
+substituting $(x_0,y_0)$ gives
+
+\[
+C
+=
+H_1(x_0)+H_2(y_0).
+\]
+
+Therefore, the solution to the IVP can be written as
+
+\[
+\boxed{
+H_1(x)+H_2(y)
+=
+H_1(x_0)+H_2(y_0)
+}.
+\]
+
+This gives the solution implicitly. If possible, we may then solve
+for $y$ explicitly.
+
+% ------------------------------------------------------------
+\subsection{Example: Separable IVP}
+% ------------------------------------------------------------
+
+\textbf{Solve the IVP}
+
+\[
+\frac{dy}{dx}
+=
+\frac{3x^2+4x+2}{2(y-1)},
+\qquad
+y(0)=-1.
+\]
+
+First separate the variables:
+
+\[
+2(y-1)\,dy
+=
+(3x^2+4x+2)\,dx.
+\]
+
+Integrate both sides:
+
+\[
+\int 2(y-1)\,dy
+=
+\int(3x^2+4x+2)\,dx.
+\]
+
+The left-hand side becomes
+
+\[
+(y-1)^2,
+\]
+
+while the right-hand side becomes
+
+\[
+x^3+2x^2+2x+C.
+\]
+
+Thus,
+
+\[
+(y-1)^2
+=
+x^3+2x^2+2x+C.
+\]
+
+Use the initial condition
+
+\[
+y(0)=-1.
+\]
+
+Then
+
+\[
+(-1-1)^2=C,
+\]
+
+so
+
+\[
+C=4.
+\]
+
+Therefore,
+
+\[
+(y-1)^2
+=
+x^3+2x^2+2x+4.
+\]
+
+Taking the square root gives
+
+\[
+y-1
+=
+\pm
+\sqrt{x^3+2x^2+2x+4}.
+\]
+
+Since $y(0)=-1$, we must choose the negative branch:
+
+\[
+\boxed{
+y(x)
+=
+1-
+\sqrt{x^3+2x^2+2x+4}
+}.
+\]
+
+This is the solution satisfying the initial condition.
+
+% ============================================================
+\section{Homogeneous Equations}
+% ============================================================
+
+A first-order differential equation
+
+\[
+\frac{dy}{dx}=f(x,y)
+\]
+
+is called \textbf{homogeneous} if the right-hand side can be
+written as a function of the ratio $y/x$:
+
+\[
+\boxed{
+\frac{dy}{dx}=g\left(\frac{y}{x}\right)
+}.
+\]
+
+The important observation is that a homogeneous equation can be
+converted into a separable equation using the substitution
+
+\[
+\boxed{
+v=\frac{y}{x}
+}.
+\]
+
+Equivalently,
+
+\[
+y=vx.
+\]
+
+% ------------------------------------------------------------
+\subsection{The Homogeneous Substitution}
+% ------------------------------------------------------------
+
+Starting with
+
+\[
+y=vx,
+\]
+
+differentiate both sides with respect to $x$:
+
+\[
+\frac{dy}{dx}
+=
+v+x\frac{dv}{dx}.
+\]
+
+Therefore, whenever
+
+\[
+\frac{dy}{dx}
+=
+g\left(\frac{y}{x}\right),
+\]
+
+we substitute
+
+\[
+\frac{y}{x}=v
+\]
+
+and
+
+\[
+\frac{dy}{dx}
+=
+v+x\frac{dv}{dx}.
+\]
+
+This gives
+
+\[
+v+x\frac{dv}{dx}=g(v).
+\]
+
+Rearranging,
+
+\[
+x\frac{dv}{dx}=g(v)-v.
+\]
+
+Hence,
+
+\[
+\frac{dv}{g(v)-v}
+=
+\frac{dx}{x}.
+\]
+
+The equation is now separable.
+
+% ------------------------------------------------------------
+\subsection{Example: Homogeneous Equation}
+% ------------------------------------------------------------
+
+\textbf{Solve}
+
+\[
+\frac{dy}{dx}
+=
+\frac{x^2+xy+y^2}{x^2}.
+\]
+
+First rewrite the right-hand side:
+
+\[
+\frac{x^2+xy+y^2}{x^2}
+=
+1+\frac{y}{x}
++\left(\frac{y}{x}\right)^2.
+\]
+
+Therefore,
+
+\[
+\frac{dy}{dx}
+=
+1+\frac{y}{x}
++\left(\frac{y}{x}\right)^2.
+\]
+
+This is homogeneous because the right-hand side depends only on
+$y/x$.
+
+Use the substitution
+
+\[
+v=\frac{y}{x},
+\]
+
+so that
+
+\[
+y=vx.
+\]
+
+Differentiate:
+
+\[
+\frac{dy}{dx}
+=
+v+x\frac{dv}{dx}.
+\]
+
+Substitute into the differential equation:
+
+\[
+v+x\frac{dv}{dx}
+=
+1+v+v^2.
+\]
+
+Cancel $v$ from both sides:
+
+\[
+x\frac{dv}{dx}
+=
+1+v^2.
+\]
+
+Separate the variables:
+
+\[
+\frac{dv}{1+v^2}
+=
+\frac{dx}{x}.
+\]
+
+Integrate:
+
+\[
+\int\frac{dv}{1+v^2}
+=
+\int\frac{dx}{x}.
+\]
+
+Therefore,
+
+\[
+\arctan(v)
+=
+\ln|x|+C.
+\]
+
+Substitute back
+
+\[
+v=\frac{y}{x}:
+\]
+
+\[
+\arctan\left(\frac{y}{x}\right)
+=
+\ln|x|+C.
+\]
+
+This is an implicit form of the solution.
+
+Solving for $y/x$,
+
+\[
+\frac{y}{x}
+=
+\tan(\ln|x|+C).
+\]
+
+Thus,
+
+\[
+\boxed{
+y
+=
+x\tan(\ln|x|+C)
+}.
+\]
+
+% ============================================================
+\section{Summary of Methods}
+% ============================================================
+
+\subsection{Linear First-Order Equations}
+
+For
+
+\[
+y'+p(t)y=g(t),
+\]
+
+use the integrating factor
+
+\[
+\boxed{
+\mu(t)=e^{\int p(t)\,dt}
+}.
+\]
+
+Then
+
+\[
+\boxed{
+\frac{d}{dt}(\mu y)=\mu g
+}
+\]
+
+and therefore
+
+\[
+\boxed{
+y
+=
+\frac{1}{\mu}
+\left(
+\int\mu g\,dt+C
+\right)
+}.
+\]
+
+% ------------------------------------------------------------
+\subsection{Separable Equations}
+
+If an equation can be written as
+
+\[
+M(x)\,dx+N(y)\,dy=0,
+\]
+
+then integrate:
+
+\[
+\boxed{
+\int M(x)\,dx+\int N(y)\,dy=C
+}.
+\]
+
+For an IVP
+
+\[
+y(x_0)=y_0,
+\]
+
+use the initial condition to determine $C$.
+
+% ------------------------------------------------------------
+\subsection{Homogeneous Equations}
+
+If
+
+\[
+\frac{dy}{dx}
+=
+g\left(\frac{y}{x}\right),
+\]
+
+use
+
+\[
+\boxed{
+v=\frac{y}{x}
+}
+\]
+
+so that
+
+\[
+\boxed{
+y=vx
+}
+\]
+
+and
+
+\[
+\boxed{
+\frac{dy}{dx}
+=
+v+x\frac{dv}{dx}
+}.
+\]
+
+The resulting equation should be separable.
+
+% ============================================================
+\end{document}

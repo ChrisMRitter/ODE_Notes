@@ -1,0 +1,241 @@
+\documentclass[11pt]{article}
+
+% ============================================================
+% Packages
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat=1.18}
+
+% ============================================================
+% Document Formatting
+% ============================================================
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+% ============================================================
+% List Formatting
+% ============================================================
+\setlist[enumerate]{
+    leftmargin=2em,
+    itemsep=0.25em
+}
+
+% ============================================================
+% Solution Environment
+% ============================================================
+\newenvironment{solution}
+    {\par\noindent\textbf{Solution.}\par}
+    {\par}
+
+% ============================================================
+% Link Styling
+% ============================================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan
+}
+
+% ============================================================
+% Metadata
+% ============================================================
+\title{Ordinary Differential Equations}
+\author{Chris Ritter}
+\date{October 15, 2026}
+
+% ============================================================
+% Document
+% ============================================================
+
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{Nonhomogeneous Linear Equations}
+% ============================================================
+
+A second-order nonhomogeneous linear differential equation has the form
+\[
+L[y]:=y''+p(t)y'+q(t)y=g(t).
+\]
+The associated homogeneous equation is \(L[y]=0\). If \(y_h\) is its
+general solution and \(y_p\) is any one solution of \(L[y_p]=g\), then
+\[
+\boxed{y=y_h+y_p}
+\]
+is the general solution of the nonhomogeneous equation. Indeed,
+linearity gives \(L[y_h+y_p]=L[y_h]+L[y_p]=g\); conversely, the
+difference of any two solutions of \(L[y]=g\) solves \(L[y]=0\).
+
+For constant coefficients, the homogeneous part comes from the
+characteristic equation. The \textbf{method of undetermined
+coefficients} then chooses a trial form for \(y_p\) whose derivatives
+have the same types of terms as \(g\). It applies when \(g\) is a
+finite sum of polynomials, exponentials, sines, cosines, and their
+products. Once the trial is chosen, substitution determines its
+unknown coefficients.
+
+\subsection{Choosing a Trial Particular Solution}
+
+For a polynomial \(P_n(t)\) of degree \(n\), use a general polynomial
+\(Q_n(t)\) of the same degree. Typical trial forms are
+\[
+\begin{array}{c|c}
+\text{Forcing term} & \text{Initial trial for }y_p\\ \hline
+P_n(t) & Q_n(t)\\
+e^{\alpha t}P_n(t) & e^{\alpha t}Q_n(t)\\
+P_n(t)\cos\beta t\text{ or }P_n(t)\sin\beta t
+  & Q_n(t)\cos\beta t+R_n(t)\sin\beta t\\
+e^{\alpha t}P_n(t)\cos\beta t\text{ or }e^{\alpha t}P_n(t)\sin\beta t
+  & e^{\alpha t}\bigl(Q_n(t)\cos\beta t+R_n(t)\sin\beta t\bigr)
+\end{array}
+\]
+Include both sine and cosine terms because differentiation mixes them.
+Likewise, include every polynomial power through degree \(n\).
+
+\textbf{Resonance.} If any term in the trial solves the homogeneous
+equation, the trial cannot produce the forcing term. Multiply the
+entire trial by \(t^s\), where \(s\) is the multiplicity of the
+corresponding characteristic root \(\alpha+i\beta\). Then substitute
+and solve for the coefficients. For real coefficients, complex roots
+come in conjugate pairs and share the same multiplicity.
+
+\subsection{Example: Resonance with a Trigonometric Forcing}
+
+Solve
+\[
+y''+4y=3\cos 2t.
+\]
+
+\begin{solution}
+The characteristic equation \(r^2+4=0\) has roots \(\pm2i\), so
+\[
+y_h=C_1\cos2t+C_2\sin2t.
+\]
+The usual trial \(A\cos2t+B\sin2t\) is already homogeneous and
+therefore gives zero when substituted into \(y''+4y\). The roots have
+multiplicity one, so use
+\[
+y_p=t(A\sin2t+B\cos2t).
+\]
+Direct differentiation shows
+\[
+(D^2+4)(t\sin2t)=4\cos2t,
+\qquad
+(D^2+4)(t\cos2t)=-4\sin2t.
+\]
+Thus \(4A=3\) and \(B=0\). The general solution is
+\[
+\boxed{y=C_1\cos2t+C_2\sin2t+\frac34t\sin2t.}
+\]
+\end{solution}
+
+\subsection{Example: A Repeated Root and Polynomial Forcing}
+
+Solve
+\[
+y''-4y'+4y=t e^{2t}.
+\]
+
+\begin{solution}
+The characteristic polynomial is
+\(r^2-4r+4=(r-2)^2\). Hence
+\[
+y_h=(C_1+C_2t)e^{2t}.
+\]
+The forcing is an exponential times a degree-one polynomial, and
+\(r=2\) is a double root. Multiply the ordinary trial by \(t^2\):
+\[
+y_p=t^2e^{2t}(At+B)=e^{2t}(At^3+Bt^2).
+\]
+For any smooth \(v\),
+\[
+(D-2)^2\bigl(e^{2t}v(t)\bigr)=e^{2t}v''(t).
+\]
+With \(v=At^3+Bt^2\), the equation becomes
+\[
+e^{2t}(6At+2B)=te^{2t}.
+\]
+Therefore \(A=1/6\) and \(B=0\), giving
+\[
+\boxed{y=e^{2t}\left(C_1+C_2t+\frac{t^3}{6}\right).}
+\]
+\end{solution}
+
+\subsection{Superposition for Several Forcing Terms}
+
+If \(g=g_1+\cdots+g_m\) and \(L[y_{p,j}]=g_j\), then
+\[
+L[y_{p,1}+\cdots+y_{p,m}]=g_1+\cdots+g_m.
+\]
+Find one particular solution for each forcing term and add them.
+This works because \(L\) is linear. After adding \(y_h\), combine or
+absorb any duplicate homogeneous terms into its constants.
+
+\subsection{Example: Three Forcing Terms}
+
+Find a particular solution of the equation shown in the class notes:
+\[
+y''-3y'-4y=3e^t+2\sin t-8e^t\cos2t.
+\]
+
+\begin{solution}
+Write \(L=D^2-3D-4\). Split the right-hand side into three terms.
+
+For \(3e^t\), try \(y_{p,1}=Ae^t\). Since
+\(L[e^t]=(1-3-4)e^t=-6e^t\), we obtain
+\[
+y_{p,1}=-\frac12e^t.
+\]
+
+For \(2\sin t\), try
+\(y_{p,2}=A\sin t+B\cos t\). Comparing coefficients gives
+\[
+-5A+3B=2,\qquad -3A-5B=0,
+\]
+so \(A=-5/17\) and \(B=3/17\). Thus
+\[
+y_{p,2}=-\frac5{17}\sin t+\frac3{17}\cos t.
+\]
+
+For \(-8e^t\cos2t\), try
+\(y_{p,3}=e^t(A\cos2t+B\sin2t)\). Substitution gives
+\[
+-10A-2B=-8,\qquad 2A-10B=0,
+\]
+so \(A=10/13\) and \(B=2/13\). Therefore
+\[
+\boxed{y_p=-\frac12e^t-\frac5{17}\sin t+\frac3{17}\cos t
++\frac{10}{13}e^t\cos2t+\frac2{13}e^t\sin2t.}
+\]
+The homogeneous characteristic equation
+\((r-4)(r+1)=0\) gives
+\(y_h=C_1e^{4t}+C_2e^{-t}\). Hence the full general solution is
+\[
+\boxed{y=C_1e^{4t}+C_2e^{-t}+y_p.}
+\]
+\end{solution}
+
+\subsection{When to Use a Different Method}
+
+Undetermined coefficients relies on the forcing term staying in a
+finite-dimensional family under differentiation. A forcing term such
+as \(\tan t\), \(\csc t\), or \(\ln t\) generally requires another
+method. \textbf{Variation of parameters} handles such terms when a
+fundamental pair of homogeneous solutions is known.
+
+\end{document}

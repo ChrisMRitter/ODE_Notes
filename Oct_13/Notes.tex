@@ -1,0 +1,146 @@
+\documentclass[11pt]{article}
+
+% ============================================================
+% Packages
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat=1.18}
+
+% ============================================================
+% Document Formatting
+% ============================================================
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+% ============================================================
+% List Formatting
+% ============================================================
+\setlist[enumerate]{
+    leftmargin=2em,
+    itemsep=0.25em
+}
+
+% ============================================================
+% Solution Environment
+% ============================================================
+\newenvironment{solution}
+    {\par\noindent\textbf{Solution.}\par}
+    {\par}
+
+% ============================================================
+% Link Styling
+% ============================================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan
+}
+
+% ============================================================
+% Metadata
+% ============================================================
+\title{Ordinary Differential Equations: Abridged Notes}
+\author{Chris Ritter}
+\date{October 13, 2026}
+
+% ============================================================
+% Document
+% ============================================================
+
+\begin{document}
+\maketitle
+\begin{center}
+\small\emph{These abridged notes were reconstructed afterward because I did not take
+direct notes during class. They are not a record of the actual lecture.}
+\end{center}
+\tableofcontents
+\newpage
+
+\section{Topic Summary}
+A repeated characteristic root supplies fewer distinct exponential
+solutions than the order of the equation requires. For a double real
+root \(r\), the second independent solution is \(te^{rt}\).
+Reduction of order is a more general method: when one nonzero
+solution \(y_1\) of a second-order homogeneous linear equation is
+known, seek another as \(y_2=v(t)y_1(t)\). This method also works
+when coefficients vary with time.
+
+\section{Repeated Roots}
+If \(ar^2+br+c=a(r-r_0)^2\), then
+\[
+\boxed{y(t)=(C_1+C_2t)e^{r_0t}.}
+\]
+The factor \(t\) makes \(te^{r_0t}\) independent of
+\(e^{r_0t}\). The two are a fundamental pair because their
+Wronskian is \(e^{2r_0t}\ne0\).
+
+\subsection{Example: A Repeated-Root Initial-Value Problem}
+\textbf{Adapted from Boyce et al., 11th ed., \S3.4, Problem 9.}
+Solve
+\[
+9y''-12y'+4y=0,\qquad y(0)=2,\qquad y'(0)=-1.
+\]
+\begin{solution}
+The characteristic polynomial is \((3r-2)^2\), so the double root
+is \(r_0=2/3\). Write \(y=(C_1+C_2t)e^{2t/3}\). The first initial
+condition gives \(C_1=2\). Since
+\[
+y'=e^{2t/3}\left(C_2+\frac23(C_1+C_2t)\right),
+\]
+the second gives \(C_2+4/3=-1\), hence \(C_2=-7/3\). Therefore
+\[
+\boxed{y(t)=\left(2-\frac73t\right)e^{2t/3}.}
+\]
+\end{solution}
+
+\section{Reduction of Order}
+For a normalized equation \(y''+p(t)y'+q(t)y=0\) and a known
+solution \(y_1\) that is nonzero on the interval of work, substitute
+\(y_2=vy_1\). Simplifying with the equation satisfied by \(y_1\)
+yields a first-order equation for \(v'\). One convenient formula is
+\[
+\boxed{y_2(t)=y_1(t)\int
+\frac{\exp\left(-\int p(t)\,dt\right)}{y_1(t)^2}\,dt.}
+\]
+Any constant added inside the outer integral merely adds a multiple
+of \(y_1\); choose the constant to obtain an independent solution.
+
+\subsection{Example: Variable Coefficients}
+\textbf{Adapted from Boyce et al., 11th ed., \S3.4, Problem 21.}
+Given \(y_1(x)=\sin(x^2)\), find a second solution of
+\[
+xy''-y'+4x^3y=0,\qquad x>0.
+\]
+\begin{solution}
+After division by \(x\), \(p(x)=-1/x\), so
+\(e^{-\int p\,dx}=x\) up to a constant factor. On an interval
+where \(\sin(x^2)\ne0\), reduction of order gives
+\[
+\begin{aligned}
+y_2
+&=\sin(x^2)\int\frac{x}{\sin^2(x^2)}\,dx\\
+&=\frac12\sin(x^2)\int\csc^2u\,du,
+\qquad u=x^2\\
+&=-\frac12\cos(x^2).
+\end{aligned}
+\]
+A nonzero constant multiple is equally valid, so choose
+\[
+\boxed{y_2(x)=\cos(x^2).}
+\]
+This expression solves the equation for every \(x>0\), including
+zeros of \(\sin(x^2)\); the intermediate integral is used locally
+where its denominator is nonzero. The pair is independent because
+its Wronskian is \(-2x\ne0\) for \(x>0\).
+\end{solution}
+\end{document}

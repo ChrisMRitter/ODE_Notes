@@ -1,0 +1,129 @@
+\documentclass[11pt]{article}
+
+% ============================================================
+% Packages
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat=1.18}
+
+% ============================================================
+% Document Formatting
+% ============================================================
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+% ============================================================
+% List Formatting
+% ============================================================
+\setlist[enumerate]{
+    leftmargin=2em,
+    itemsep=0.25em
+}
+
+% ============================================================
+% Solution Environment
+% ============================================================
+\newenvironment{solution}
+    {\par\noindent\textbf{Solution.}\par}
+    {\par}
+
+% ============================================================
+% Link Styling
+% ============================================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan
+}
+
+% ============================================================
+% Metadata
+% ============================================================
+\title{Ordinary Differential Equations: Abridged Notes}
+\author{Chris Ritter}
+\date{September 17, 2026}
+
+% ============================================================
+% Document
+% ============================================================
+
+\begin{document}
+\maketitle
+\begin{center}
+\small\emph{These abridged notes were reconstructed afterward because I did not take
+direct notes during class. They are not a record of the actual lecture.}
+\end{center}
+\tableofcontents
+\newpage
+
+\section{Topic Summary}
+For a homogeneous second-order linear differential equation with
+constant coefficients,
+\[
+ay''+by'+cy=0,\qquad a\ne0,
+\]
+trying \(y=e^{rt}\) turns the differential equation into the
+characteristic equation \(ar^2+br+c=0\). Its roots determine a
+fundamental pair of solutions. Distinct real roots give two distinct
+exponentials; repeated and complex roots require different forms.
+Initial conditions determine the constants in the general solution.
+
+\section{The Characteristic Equation}
+If \(r_1\) and \(r_2\) are distinct real roots of
+\(ar^2+br+c=0\), then
+\[
+\boxed{y(t)=C_1e^{r_1t}+C_2e^{r_2t}.}
+\]
+The two exponentials are linearly independent because their
+Wronskian is \((r_2-r_1)e^{(r_1+r_2)t}\ne0\). The form of the
+solution changes for a double root or a conjugate pair; those cases
+are treated in later notes.
+
+\subsection{Example: Two Distinct Real Roots}
+\textbf{Adapted from Boyce et al., 11th ed., \S3.1, Problem 1.}
+Solve \(y''+2y'-3y=0\).
+\begin{solution}
+The characteristic equation factors as
+\[
+r^2+2r-3=(r-1)(r+3)=0.
+\]
+The roots are 1 and \(-3\), so
+\[
+\boxed{y(t)=C_1e^t+C_2e^{-3t}.}
+\]
+Each exponential satisfies the equation, and their Wronskian
+\(-4e^{-2t}\) is nonzero.
+\end{solution}
+
+\subsection{Example: An Initial-Value Problem and Minimum}
+\textbf{Adapted from Boyce et al., 11th ed., \S3.1, Problem 14.}
+Solve \(y''-y=0\), \(y(0)=5/4\), \(y'(0)=-3/4\); find its minimum
+for \(0\leq t\leq2\).
+\begin{solution}
+The characteristic roots are \(1\) and \(-1\), so
+\(y=C_1e^t+C_2e^{-t}\). At \(t=0\), the data give
+\[
+C_1+C_2=\frac54,\qquad C_1-C_2=-\frac34.
+\]
+Thus \(C_1=1/4\), \(C_2=1\), and
+\[
+y(t)=\frac14e^t+e^{-t}.
+\]
+Differentiating gives \(y'=e^t/4-e^{-t}\). Its only critical point
+is \(t=\ln2\), which lies in \([0,2]\). Since
+\(y''=e^t/4+e^{-t}>0\), this point is a minimum, with
+\[
+\boxed{y(\ln2)=1.}
+\]
+\end{solution}
+\end{document}

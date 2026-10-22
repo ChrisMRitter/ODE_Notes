@@ -1,0 +1,130 @@
+\documentclass[11pt]{article}
+
+% ============================================================
+% Packages
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat=1.18}
+
+% ============================================================
+% Document Formatting
+% ============================================================
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+% ============================================================
+% List Formatting
+% ============================================================
+\setlist[enumerate]{
+    leftmargin=2em,
+    itemsep=0.25em
+}
+
+% ============================================================
+% Solution Environment
+% ============================================================
+\newenvironment{solution}
+    {\par\noindent\textbf{Solution.}\par}
+    {\par}
+
+% ============================================================
+% Link Styling
+% ============================================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan
+}
+
+% ============================================================
+% Metadata
+% ============================================================
+\title{Ordinary Differential Equations: Abridged Notes}
+\author{Chris Ritter}
+\date{September 10, 2026}
+
+% ============================================================
+% Document
+% ============================================================
+
+\begin{document}
+\maketitle
+\begin{center}
+\small\emph{These abridged notes were reconstructed afterward because I did not take
+direct notes during class. They are not a record of the actual lecture.}
+\end{center}
+\tableofcontents
+\newpage
+
+\section{Topic Summary}
+An autonomous equation has the form \(y'=f(y)\): its rate depends on
+the current state, not explicitly on time. Its equilibria are the
+roots of \(f\). A phase line records the sign of \(f\) between
+consecutive equilibria and shows whether nearby solutions move toward
+or away from each one. This gives qualitative information about
+population models without solving the equation.
+
+\section{Phase Lines and Stability}
+To analyze \(y'=f(y)\), first solve \(f(y)=0\). On each interval
+between equilibrium values, test one point to find the sign of \(f\):
+positive means solutions increase; negative means they decrease.
+An equilibrium is \textbf{asymptotically stable} if nearby solutions
+approach it as time increases, and \textbf{unstable} if nearby
+solutions move away. When \(f'(y_*)\ne0\), the sign of \(f'(y_*)\)
+gives the same local test: negative is stable and positive is unstable.
+
+\subsection{Example: Quadratic Population Rate}
+\textbf{Adapted from Boyce et al., 11th ed., \S2.5, Problem 1.}
+Consider \(y'=ay+by^2\) with \(a,b>0\).
+\begin{solution}
+Factor \(f(y)=y(a+by)\). The equilibria are \(y=-a/b\) and \(y=0\).
+The sign chart is
+\[
+\begin{array}{c|ccc}
+y&(-\infty,-a/b)&(-a/b,0)&(0,\infty)\\\hline
+f(y)&+&-&+
+\end{array}
+\]
+Thus arrows point toward \(-a/b\) from both sides, while they point
+away from 0. Therefore
+\[
+\boxed{-a/b\text{ is asymptotically stable, and }0\text{ is unstable}.}
+\]
+For nonnegative population, \(y=0\) is the only equilibrium in the
+physical range; every positive solution initially increases. The
+negative equilibrium is mathematically valid but not a population.
+\end{solution}
+
+\subsection{Example: Three Equilibria}
+\textbf{Adapted from Boyce et al., 11th ed., \S2.5, Problem 2.}
+Consider \(y'=y(y-1)(y-2)\) for \(y\geq0\).
+\begin{solution}
+The equilibria are 0, 1, and 2. Testing one value in each interval
+gives
+\[
+\begin{array}{c|cccc}
+y&(-\infty,0)&(0,1)&(1,2)&(2,\infty)\\\hline
+f(y)&-&+&-&+
+\end{array}
+\]
+The arrows on \((0,1)\) point right and those on \((1,2)\) point
+left, so nearby solutions approach 1. On either side of 0 and 2,
+nearby solutions move away. Hence
+\[
+\boxed{1\text{ is asymptotically stable; }0\text{ and }2
+\text{ are unstable}.}
+\]
+For physical initial data \(y_0\geq0\), the negative part of the
+phase line is only a mathematical extension.
+\end{solution}
+\end{document}

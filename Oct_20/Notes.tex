@@ -1,0 +1,245 @@
+\documentclass[11pt]{article}
+
+% ============================================================
+% Packages
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat=1.18}
+
+% ============================================================
+% Document Formatting
+% ============================================================
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+% ============================================================
+% List Formatting
+% ============================================================
+\setlist[enumerate]{
+    leftmargin=2em,
+    itemsep=0.25em
+}
+
+% ============================================================
+% Solution Environment
+% ============================================================
+\newenvironment{solution}
+    {\par\noindent\textbf{Solution.}\par}
+    {\par}
+
+% ============================================================
+% Link Styling
+% ============================================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan
+}
+
+% ============================================================
+% Metadata
+% ============================================================
+\title{Ordinary Differential Equations}
+\author{Chris Ritter}
+\date{October 20, 2026}
+
+% ============================================================
+% Document
+% ============================================================
+
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{The Method of Variation of Parameters}
+% ============================================================
+
+Consider the nonhomogeneous second-order linear equation
+\[
+L[y]:=y''+p(t)y'+q(t)y=g(t).
+\]
+As before, its general solution has the form \(y=y_h+y_p\), where
+\(L[y_h]=0\) and \(L[y_p]=g\). Undetermined coefficients is convenient
+for polynomial, exponential, and trigonometric forcing terms, but
+forcing terms such as \(\tan t\) or \(\csc t\) do not lead to a finite
+trial of that kind. \textbf{Variation of parameters} constructs a
+particular solution using a known fundamental pair \(y_1,y_2\) for
+\(L[y]=0\).
+
+The method works on any interval where \(p,q,g\) are continuous and
+\(y_1,y_2\) are linearly independent. It is important first to divide
+through by the coefficient of \(y''\) if the equation is not already
+in the normalized form above.
+
+\subsection{Derivation of the Formula}
+
+The homogeneous solution is
+\[
+y_h=C_1y_1+C_2y_2.
+\]
+Replace the constants by functions and seek
+\[
+y_p=u_1(t)y_1(t)+u_2(t)y_2(t).
+\]
+Choose the auxiliary condition
+\[
+u_1'y_1+u_2'y_2=0.
+\]
+Then \(y_p'=u_1y_1'+u_2y_2'\), and differentiating once more gives
+\[
+y_p''=u_1'y_1'+u_2'y_2'+u_1y_1''+u_2y_2''.
+\]
+Because \(L[y_1]=L[y_2]=0\), substitution into \(L[y_p]=g\) leaves
+\[
+u_1'y_1'+u_2'y_2'=g.
+\]
+Thus the unknown derivatives satisfy the coefficient system
+\[
+\begin{pmatrix}y_1&y_2\\y_1'&y_2'\end{pmatrix}
+\begin{pmatrix}u_1'\\u_2'\end{pmatrix}
+=\begin{pmatrix}0\\g\end{pmatrix}.
+\]
+Its determinant is the \textbf{Wronskian}
+\[
+W=y_1y_2'-y_1'y_2.
+\]
+Since the solutions form a fundamental pair, \(W\ne0\) on the chosen
+interval. Solving the system and integrating gives
+\[
+\boxed{u_1'=-\frac{y_2g}{W},\qquad
+u_2'=\frac{y_1g}{W},\qquad
+y_p=-y_1\int\frac{y_2g}{W}\,dt
++y_2\int\frac{y_1g}{W}\,dt.}
+\]
+Constants of integration only add homogeneous terms, so they can be
+set to zero when finding \(y_p\).
+
+\subsection{Procedure}
+
+\begin{enumerate}
+\item Normalize the equation so the coefficient of \(y''\) is one.
+\item Solve the homogeneous equation and choose independent
+      solutions \(y_1,y_2\).
+\item Compute \(W=y_1y_2'-y_1'y_2\).
+\item Integrate \(u_1'=-y_2g/W\) and \(u_2'=y_1g/W\).
+\item Form \(y_p=u_1y_1+u_2y_2\), then add \(y_h\).
+\end{enumerate}
+
+\subsection{Example: Forcing by \texorpdfstring{$3\csc t$}{3 csc t}}
+
+Find the general solution of
+\[
+y''+4y=3\csc t.
+\]
+
+\begin{solution}
+Work on an interval \((k\pi,(k+1)\pi)\), where \(\sin t\ne0\).
+The homogeneous characteristic equation \(r^2+4=0\) gives
+\[
+y_1=\cos2t,\qquad y_2=\sin2t,\qquad
+W=2\cos^22t+2\sin^22t=2.
+\]
+Consequently,
+\[
+u_1'=-\frac{3\sin2t}{2\sin t}=-3\cos t,
+\qquad
+u_1=-3\sin t,
+\]
+and, using \(\cos2t=1-2\sin^2t\),
+\[
+\begin{aligned}
+u_2'
+&=\frac{3\cos2t}{2\sin t}
+=\frac32\csc t-3\sin t,\\
+u_2
+&=\frac32\ln\left|\tan\frac{t}{2}\right|+3\cos t.
+\end{aligned}
+\]
+The particular solution simplifies via
+\(\sin2t\cos t-\cos2t\sin t=\sin t\):
+\[
+\begin{aligned}
+y_p
+&=-3\sin t\cos2t
++\left(\frac32\ln\left|\tan\frac{t}{2}\right|
+  +3\cos t\right)\sin2t\\
+&=3\sin t+\frac32\sin2t
+  \ln\left|\tan\frac{t}{2}\right|.
+\end{aligned}
+\]
+Therefore
+\[
+\boxed{y=C_1\cos2t+C_2\sin2t+3\sin t
++\frac32\sin2t\ln\left|\tan\frac{t}{2}\right|.}
+\]
+The formula is interpreted separately on each interval that does not
+contain a zero of \(\sin t\).
+\end{solution}
+
+\subsection{Example: Forcing by \texorpdfstring{$\tan t$}{tan t}}
+
+Find the general solution of
+\[
+y''+y=\tan t.
+\]
+
+\begin{solution}
+Choose an interval where \(\cos t\ne0\), for example
+\((-\pi/2,\pi/2)\). The homogeneous equation has fundamental
+solutions
+\[
+y_1=\cos t,\qquad y_2=\sin t,\qquad W=1.
+\]
+The parameter derivatives are
+\[
+\begin{aligned}
+u_1'&=-\sin t\tan t=\cos t-\sec t,\\
+u_2'&=\cos t\tan t=\sin t.
+\end{aligned}
+\]
+Thus we may take
+\[
+u_1=\sin t-\ln|\sec t+\tan t|,
+\qquad
+u_2=-\cos t.
+\]
+The mixed sine-cosine terms cancel in \(u_1y_1+u_2y_2\), leaving
+\[
+y_p=-\cos t\ln|\sec t+\tan t|.
+\]
+Hence
+\[
+\boxed{y=C_1\cos t+C_2\sin t
+-\cos t\ln|\sec t+\tan t|.}
+\]
+The solution is valid on any interval that contains no pole of
+\(\tan t\).
+\end{solution}
+
+\subsection{Key Points}
+
+\begin{itemize}
+\item The Wronskian must be nonzero on the interval of work.
+\item The forcing term in the formula is the one from the normalized
+      equation \(y''+py'+qy=g\).
+\item Different antiderivatives for \(u_1,u_2\) produce particular
+      solutions that differ only by homogeneous terms.
+\item The method can require harder integrals than undetermined
+      coefficients, but it handles a much wider range of forcing terms.
+\end{itemize}
+
+\end{document}

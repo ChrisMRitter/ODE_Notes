@@ -1,0 +1,1174 @@
+\documentclass[11pt]{article}
+
+% ============================================================
+% Packages
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat=1.18}
+
+% ============================================================
+% Document Formatting
+% ============================================================
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+% ============================================================
+% List Formatting
+% ============================================================
+\setlist[enumerate]{
+    leftmargin=2em,
+    itemsep=0.25em
+}
+
+% ============================================================
+% Solution Environment
+% ============================================================
+\newenvironment{solution}
+    {\par\noindent\textbf{Solution.}\par}
+    {\par}
+
+% ============================================================
+% Link Styling
+% ============================================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan
+}
+
+% ============================================================
+% Plain note callouts
+% ============================================================
+\newenvironment{definitionbox}[1]
+    {\par\medskip\noindent\textbf{Definition: #1.}\par}
+    {\par\medskip}
+\newenvironment{theorembox}[1]
+    {\par\medskip\noindent\textbf{Theorem: #1.}\par}
+    {\par\medskip}
+\newenvironment{examplebox}[1]
+    {\par\medskip\noindent\textbf{Example: #1.}\par}
+    {\par\medskip}
+\newenvironment{keyideabox}
+    {\par\medskip\noindent\textbf{Key idea.}\par}
+    {\par\medskip}
+\newenvironment{formulabox}
+    {\par\medskip\noindent\textbf{Important formula.}\par}
+    {\par\medskip}
+
+% ============================================================
+% Metadata
+% ============================================================
+\title{Ordinary Differential Equations}
+\author{Chris Ritter}
+\date{September 15, 2026}
+
+% ============================================================
+% Document
+% ============================================================
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+These notes introduce several important classes of first-order
+differential equations, with particular emphasis on exact equations
+and integrating factors.
+
+% ============================================================
+\section{First-Order Equations}
+% ============================================================
+
+Some important types of first-order differential equations are:
+
+\begin{itemize}
+    \item Linear equations
+    \item Separable equations
+    \item Exact equations
+\end{itemize}
+
+% ============================================================
+\subsection{Exact Differential Equations}
+% ============================================================
+
+A first-order differential equation can be written in the form
+
+\[
+M(x,y)+N(x,y)\frac{dy}{dx}=0.
+\]
+
+\begin{definitionbox}{Exact Differential Equation}
+
+The differential equation
+
+\[
+M(x,y)+N(x,y)\frac{dy}{dx}=0
+\]
+
+is called \textbf{exact} if there exists a function
+$\psi=\psi(x,y)$ such that
+
+\[
+\psi_x=M,
+\qquad
+\psi_y=N.
+\]
+
+The function $\psi(x,y)$ is called a
+\textbf{potential function}.
+
+\end{definitionbox}
+
+If such a function $\psi$ exists, then by the chain rule,
+
+\[
+\frac{d}{dx}\psi(x,y(x))
+=
+\psi_x+\psi_y\frac{dy}{dx}.
+\]
+
+Since
+
+\[
+\psi_x=M
+\]
+
+and
+
+\[
+\psi_y=N,
+\]
+
+we obtain
+
+\[
+\frac{d}{dx}\psi(x,y)
+=
+M(x,y)+N(x,y)\frac{dy}{dx}.
+\]
+
+Therefore, if
+
+\[
+M(x,y)+N(x,y)\frac{dy}{dx}=0,
+\]
+
+then
+
+\[
+\frac{d}{dx}\psi(x,y)=0.
+\]
+
+It follows that
+
+\[
+\boxed{\psi(x,y)=C}.
+\]
+
+\begin{keyideabox}
+
+For an exact differential equation, the main goal is to find the
+potential function $\psi(x,y)$. Once $\psi$ is found, the solution is
+
+\[
+\boxed{\psi(x,y)=C}.
+\]
+
+\end{keyideabox}
+
+% ============================================================
+\subsection{Example}
+% ============================================================
+
+\begin{examplebox}{Finding the Potential Function}
+
+Consider
+
+\[
+2x+y^2+2xy\frac{dy}{dx}=0.
+\]
+
+Identify
+
+\[
+M(x,y)=2x+y^2,
+\qquad
+N(x,y)=2xy.
+\]
+
+We seek $\psi(x,y)$ satisfying
+
+\[
+\psi_x=2x+y^2,
+\qquad
+\psi_y=2xy.
+\]
+
+Integrating $\psi_x$ with respect to $x$ gives
+
+\[
+\psi(x,y)
+=
+\int(2x+y^2)\,dx+h(y),
+\]
+
+so
+
+\[
+\psi(x,y)
+=
+x^2+xy^2+h(y).
+\]
+
+Differentiate with respect to $y$:
+
+\[
+\psi_y
+=
+2xy+h'(y).
+\]
+
+Since $\psi_y=N=2xy$,
+
+\[
+2xy+h'(y)=2xy,
+\]
+
+and therefore
+
+\[
+h'(y)=0.
+\]
+
+Thus,
+
+\[
+h(y)=C.
+\]
+
+Absorbing the constant into the right-hand side gives
+
+\[
+\boxed{x^2+xy^2=C}.
+\]
+
+\end{examplebox}
+
+% ============================================================
+\subsection{Checking Whether an Equation Is Exact}
+% ============================================================
+
+The following theorem gives a convenient test for exactness.
+
+\begin{theorembox}{Exactness Criterion}
+
+Let $M$, $N$, $M_y$, and $N_x$ be continuous in a rectangular region
+$R$. Then
+
+\[
+M(x,y)+N(x,y)\frac{dy}{dx}=0
+\]
+
+is exact if and only if
+
+\[
+\boxed{M_y=N_x}
+\]
+
+for all $(x,y)\in R$.
+
+\end{theorembox}
+
+To see why this condition appears, suppose that the equation is exact.
+Then there exists $\psi(x,y)$ such that
+
+\[
+\psi_x=M,
+\qquad
+\psi_y=N.
+\]
+
+Taking mixed partial derivatives,
+
+\[
+\psi_{xy}=M_y
+\]
+
+and
+
+\[
+\psi_{yx}=N_x.
+\]
+
+Because the relevant partial derivatives are continuous,
+
+\[
+\psi_{xy}=\psi_{yx}.
+\]
+
+Hence,
+
+\[
+\boxed{M_y=N_x}.
+\]
+
+% ============================================================
+\subsection{Finding the Potential Function}
+% ============================================================
+
+Suppose
+
+\[
+M(x,y)+N(x,y)\frac{dy}{dx}=0
+\]
+
+is exact.
+
+Since
+
+\[
+\psi_x=M,
+\]
+
+we integrate $M$ with respect to $x$:
+
+\[
+\boxed{
+\psi(x,y)
+=
+\int M(x,y)\,dx+h(y)
+}.
+\]
+
+The function $h(y)$ appears because we are integrating with respect
+to $x$. Any term depending only on $y$ has derivative zero with respect
+to $x$.
+
+We then differentiate with respect to $y$:
+
+\[
+\psi_y
+=
+\frac{\partial}{\partial y}
+\left(
+\int M(x,y)\,dx
+\right)
++h'(y).
+\]
+
+Since $\psi_y=N$,
+
+\[
+h'(y)
+=
+N(x,y)
+-
+\frac{\partial}{\partial y}
+\left(
+\int M(x,y)\,dx
+\right).
+\]
+
+Finally, integrate $h'(y)$ to obtain $h(y)$ and therefore $\psi(x,y)$.
+
+% ============================================================
+\subsection{Example: Checking Exactness and Solving}
+% ============================================================
+
+\begin{examplebox}{Exact Equation}
+
+Consider
+
+\[
+\left(y\cos x+2xe^y\right)
++
+\left(\sin x+x^2e^y-1\right)\frac{dy}{dx}
+=0.
+\]
+
+Identify
+
+\[
+M(x,y)=y\cos x+2xe^y
+\]
+
+and
+
+\[
+N(x,y)=\sin x+x^2e^y-1.
+\]
+
+First,
+
+\[
+M_y
+=
+\cos x+2xe^y.
+\]
+
+Also,
+
+\[
+N_x
+=
+\cos x+2xe^y.
+\]
+
+Therefore,
+
+\[
+M_y=N_x,
+\]
+
+so the equation is exact.
+
+Since
+
+\[
+\psi_x=y\cos x+2xe^y,
+\]
+
+integrate with respect to $x$:
+
+\[
+\psi(x,y)
+=
+y\sin x+x^2e^y+h(y).
+\]
+
+Differentiate with respect to $y$:
+
+\[
+\psi_y
+=
+\sin x+x^2e^y+h'(y).
+\]
+
+Set this equal to $N$:
+
+\[
+\sin x+x^2e^y+h'(y)
+=
+\sin x+x^2e^y-1.
+\]
+
+Thus,
+
+\[
+h'(y)=-1,
+\qquad
+h(y)=-y+C.
+\]
+
+Hence,
+
+\[
+\boxed{
+y\sin x+x^2e^y-y=C
+}.
+\]
+
+\end{examplebox}
+
+% ============================================================
+\section{Integrating Factors}
+% ============================================================
+
+An equation of the form
+
+\[
+M(x,y)+N(x,y)\frac{dy}{dx}=0
+\]
+
+may not be exact. We can sometimes multiply the equation by a
+function $\mu(x,y)$ so that the resulting equation becomes exact.
+
+\begin{definitionbox}{Integrating Factor}
+
+An \textbf{integrating factor} is a function $\mu(x,y)$ that can be
+multiplied into a differential equation so that the resulting equation
+is exact.
+
+\end{definitionbox}
+
+We want
+
+\[
+\mu M+\mu N\frac{dy}{dx}=0
+\]
+
+to be exact. Therefore,
+
+\[
+\frac{\partial}{\partial y}(\mu M)
+=
+\frac{\partial}{\partial x}(\mu N).
+\]
+
+Using the product rule,
+
+\[
+\mu_yM+\mu M_y
+=
+\mu_xN+\mu N_x.
+\]
+
+% ============================================================
+\subsection{Integrating Factor Depending Only on
+\texorpdfstring{$x$}{x}}
+% ============================================================
+
+Suppose
+
+\[
+\mu=\mu(x).
+\]
+
+Then
+
+\[
+\mu_y=0.
+\]
+
+Therefore,
+
+\[
+\mu M_y
+=
+\mu_xN+\mu N_x.
+\]
+
+Rearranging,
+
+\[
+\mu(M_y-N_x)=\mu_xN.
+\]
+
+Thus,
+
+\[
+\frac{\mu_x}{\mu}
+=
+\frac{M_y-N_x}{N}.
+\]
+
+Therefore,
+
+\[
+\boxed{
+\frac{d\mu}{\mu}
+=
+\frac{M_y-N_x}{N}\,dx
+}.
+\]
+
+If the right-hand side is a function of $x$ alone, then
+
+\[
+\boxed{
+\mu(x)
+=
+e^{\int\frac{M_y-N_x}{N}\,dx}
+}.
+\]
+
+% ============================================================
+\subsection{Integrating Factor Depending Only on
+\texorpdfstring{$y$}{y}}
+% ============================================================
+
+Similarly, suppose
+
+\[
+\mu=\mu(y).
+\]
+
+Then
+
+\[
+\mu_x=0.
+\]
+
+Therefore,
+
+\[
+\mu_yM+\mu M_y
+=
+\mu N_x.
+\]
+
+Rearranging,
+
+\[
+\mu_yM
+=
+\mu(N_x-M_y).
+\]
+
+Thus,
+
+\[
+\frac{\mu_y}{\mu}
+=
+-\frac{M_y-N_x}{M}.
+\]
+
+Therefore,
+
+\[
+\boxed{
+\frac{d\mu}{\mu}
+=
+-\frac{M_y-N_x}{M}\,dy
+}.
+\]
+
+If the right-hand side is a function of $y$ alone, then
+
+\[
+\boxed{
+\mu(y)
+=
+e^{-\int\frac{M_y-N_x}{M}\,dy}
+}.
+\]
+
+% ============================================================
+\subsection{Example: Finding an Integrating Factor}
+% ============================================================
+
+\begin{examplebox}{Non-Exact Equation}
+
+Consider
+
+\[
+(3xy+y^2)
++
+(x^2+xy)\frac{dy}{dx}
+=0.
+\]
+
+Identify
+
+\[
+M(x,y)=3xy+y^2,
+\qquad
+N(x,y)=x^2+xy.
+\]
+
+First,
+
+\[
+M_y=3x+2y
+\]
+
+and
+
+\[
+N_x=2x+y.
+\]
+
+Since
+
+\[
+M_y\neq N_x,
+\]
+
+the equation is \textbf{not exact}.
+
+\end{examplebox}
+
+We look for an integrating factor depending only on $x$.
+
+Thus,
+
+\[
+\frac{d\mu}{\mu}
+=
+\frac{M_y-N_x}{N}\,dx.
+\]
+
+Substitute:
+
+\[
+\frac{d\mu}{\mu}
+=
+\frac{(3x+2y)-(2x+y)}
+{x^2+xy}\,dx.
+\]
+
+Simplifying,
+
+\[
+\frac{d\mu}{\mu}
+=
+\frac{x+y}{x^2+xy}\,dx.
+\]
+
+Factor the denominator:
+
+\[
+x^2+xy=x(x+y).
+\]
+
+Therefore,
+
+\[
+\frac{d\mu}{\mu}
+=
+\frac{x+y}{x(x+y)}\,dx
+=
+\frac{1}{x}\,dx.
+\]
+
+Integrating,
+
+\[
+\int\frac{d\mu}{\mu}
+=
+\int\frac{1}{x}\,dx.
+\]
+
+Hence,
+
+\[
+\ln|\mu|
+=
+\ln|x|+C.
+\]
+
+Up to a nonzero constant multiple,
+
+\[
+\boxed{\mu(x)=x}.
+\]
+
+% ============================================================
+\subsubsection{Making the Equation Exact}
+% ============================================================
+
+Multiply the original equation by $\mu=x$:
+
+\[
+x(3xy+y^2)
++
+x(x^2+xy)\frac{dy}{dx}
+=0.
+\]
+
+Thus,
+
+\[
+(3x^2y+xy^2)
++
+(x^3+x^2y)\frac{dy}{dx}
+=0.
+\]
+
+Define
+
+\[
+\widetilde{M}(x,y)
+=
+3x^2y+xy^2
+\]
+
+and
+
+\[
+\widetilde{N}(x,y)
+=
+x^3+x^2y.
+\]
+
+Now,
+
+\[
+\widetilde{M}_y
+=
+3x^2+2xy
+\]
+
+and
+
+\[
+\widetilde{N}_x
+=
+3x^2+2xy.
+\]
+
+Therefore,
+
+\[
+\widetilde{M}_y
+=
+\widetilde{N}_x,
+\]
+
+so the new equation is exact.
+
+% ============================================================
+\subsubsection{Finding the Solution}
+% ============================================================
+
+Since
+
+\[
+\psi_x
+=
+3x^2y+xy^2,
+\]
+
+integrate with respect to $x$:
+
+\[
+\psi(x,y)
+=
+\int(3x^2y+xy^2)\,dx+h(y).
+\]
+
+Thus,
+
+\[
+\psi(x,y)
+=
+x^3y+\frac{x^2y^2}{2}+h(y).
+\]
+
+Differentiate with respect to $y$:
+
+\[
+\psi_y
+=
+x^3+x^2y+h'(y).
+\]
+
+Since
+
+\[
+\psi_y
+=
+\widetilde{N}
+=
+x^3+x^2y,
+\]
+
+we obtain
+
+\[
+h'(y)=0.
+\]
+
+Therefore,
+
+\[
+h(y)=C.
+\]
+
+Hence,
+
+\[
+\boxed{
+x^3y+\frac{x^2y^2}{2}=C
+}.
+\]
+
+% ============================================================
+\subsection{Integrating Factor Summary}
+% ============================================================
+
+\begin{formulabox}
+
+For
+
+\[
+M(x,y)+N(x,y)\frac{dy}{dx}=0,
+\]
+
+if the equation is not exact,
+
+\[
+M_y\neq N_x,
+\]
+
+check
+
+\[
+\boxed{
+\frac{M_y-N_x}{N}
+}
+\]
+
+for dependence on $x$ alone.
+
+If so,
+
+\[
+\boxed{
+\mu(x)
+=
+e^{\int\frac{M_y-N_x}{N}\,dx}
+}.
+\]
+
+Otherwise, check
+
+\[
+\boxed{
+-\frac{M_y-N_x}{M}
+}
+\]
+
+for dependence on $y$ alone.
+
+If so,
+
+\[
+\boxed{
+\mu(y)
+=
+e^{-\int\frac{M_y-N_x}{M}\,dy}
+}.
+\]
+
+\end{formulabox}
+
+% ============================================================
+\section{Summary}
+% ============================================================
+
+\begin{keyideabox}
+
+For a differential equation
+
+\[
+M(x,y)+N(x,y)\frac{dy}{dx}=0,
+\]
+
+the first question is whether it is exact.
+
+\[
+\boxed{M_y=N_x}
+\]
+
+If yes, find the potential function $\psi$ and solve
+
+\[
+\boxed{\psi(x,y)=C}.
+\]
+
+If not, look for an integrating factor $\mu$.
+
+\end{keyideabox}
+
+% ============================================================
+\subsection{Exact Equations: Standard Procedure}
+% ============================================================
+
+\textbf{01. IDENTIFY}
+
+Identify $M(x,y)$ and $N(x,y)$:
+
+\[
+M(x,y)+N(x,y)\frac{dy}{dx}=0.
+\]
+
+\textbf{02. CHECK EXACTNESS}
+
+Compute
+
+\[
+M_y
+\qquad\text{and}\qquad
+N_x.
+\]
+
+Check whether
+
+\[
+\boxed{M_y=N_x}.
+\]
+
+\textbf{03. FIND THE POTENTIAL FUNCTION}
+
+If the equation is exact, use
+
+\[
+\psi_x=M.
+\]
+
+Integrate with respect to $x$:
+
+\[
+\psi(x,y)
+=
+\int M(x,y)\,dx+h(y).
+\]
+
+\textbf{04. DETERMINE $h(y)$}
+
+Differentiate with respect to $y$ and use
+
+\[
+\psi_y=N.
+\]
+
+Solve for $h'(y)$ and integrate.
+
+\textbf{05. WRITE THE SOLUTION}
+
+Set the potential function equal to a constant:
+
+\[
+\boxed{\psi(x,y)=C}.
+\]
+
+% ============================================================
+\subsection{Integrating Factors: Standard Procedure}
+% ============================================================
+
+If
+
+\[
+M_y\neq N_x,
+\]
+
+the equation is not exact.
+
+\textbf{01. CHECK FOR $\mu(x)$}
+
+Compute
+
+\[
+\frac{M_y-N_x}{N}.
+\]
+
+If this depends only on $x$, use
+
+\[
+\boxed{
+\mu(x)
+=
+e^{\int\frac{M_y-N_x}{N}\,dx}
+}.
+\]
+
+\textbf{02. CHECK FOR $\mu(y)$}
+
+If the previous expression does not depend only on $x$, check
+
+\[
+-\frac{M_y-N_x}{M}.
+\]
+
+If this depends only on $y$, use
+
+\[
+\boxed{
+\mu(y)
+=
+e^{-\int\frac{M_y-N_x}{M}\,dy}
+}.
+\]
+
+\textbf{03. MULTIPLY BY THE INTEGRATING FACTOR}
+
+Multiply the entire differential equation by $\mu$.
+
+Re-identify
+
+\[
+\widetilde{M}
+\qquad\text{and}\qquad
+\widetilde{N}.
+\]
+
+\textbf{04. VERIFY EXACTNESS}
+
+Check
+
+\[
+\widetilde{M}_y=\widetilde{N}_x.
+\]
+
+\textbf{05. FIND THE POTENTIAL FUNCTION}
+
+Find $\psi(x,y)$ using
+
+\[
+\psi_x=\widetilde{M}.
+\]
+
+Then use
+
+\[
+\psi_y=\widetilde{N}
+\]
+
+to determine the remaining function.
+
+\textbf{06. WRITE THE SOLUTION}
+
+Finally,
+
+\[
+\boxed{\psi(x,y)=C}.
+\]
+
+% ============================================================
+\subsection{Big Picture}
+% ============================================================
+
+\begin{keyideabox}
+
+\[
+\boxed{
+\begin{array}{c}
+M+N\dfrac{dy}{dx}=0
+\\[0.5em]
+\downarrow
+\\[0.5em]
+\text{Check }M_y=N_x
+\\[0.5em]
+\downarrow
+\\[0.5em]
+\begin{cases}
+\text{Exact}
+&
+\longrightarrow
+\psi
+\longrightarrow
+\psi=C
+\\[0.7em]
+\text{Not exact}
+&
+\longrightarrow
+\mu
+\longrightarrow
+\text{Exact}
+\longrightarrow
+\psi
+\longrightarrow
+\psi=C
+\end{cases}
+\end{array}
+}
+\]
+
+\end{keyideabox}
+
+% ============================================================
+
+
+\end{document}

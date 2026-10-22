@@ -1,0 +1,126 @@
+\documentclass[11pt]{article}
+
+% ============================================================
+% Packages
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat=1.18}
+
+% ============================================================
+% Document Formatting
+% ============================================================
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+% ============================================================
+% List Formatting
+% ============================================================
+\setlist[enumerate]{
+    leftmargin=2em,
+    itemsep=0.25em
+}
+
+% ============================================================
+% Solution Environment
+% ============================================================
+\newenvironment{solution}
+    {\par\noindent\textbf{Solution.}\par}
+    {\par}
+
+% ============================================================
+% Link Styling
+% ============================================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan
+}
+
+% ============================================================
+% Metadata
+% ============================================================
+\title{Ordinary Differential Equations: Abridged Notes}
+\author{Chris Ritter}
+\date{September 29, 2026}
+
+% ============================================================
+% Document
+% ============================================================
+
+\begin{document}
+\maketitle
+\begin{center}
+\small\emph{These abridged notes were reconstructed afterward because I did not take
+direct notes during class. They are not a record of the actual lecture.}
+\end{center}
+\tableofcontents
+\newpage
+
+\section{Topic Summary}
+Complex roots of a real constant-coefficient characteristic equation
+still give real solutions. A conjugate pair \(r=\alpha\pm i\beta\)
+produces \(e^{\alpha t}\cos\beta t\) and
+\(e^{\alpha t}\sin\beta t\). The real part \(\alpha\) controls the
+amplitude: negative gives decay, positive gives growth, and zero
+gives constant-amplitude oscillation. Initial conditions fix the two
+constants.
+
+\section{From Complex Roots to Real Solutions}
+For \(ay''+by'+cy=0\), solve \(ar^2+br+c=0\). If the roots are
+\(\alpha\pm i\beta\), with \(\beta>0\), Euler's formula gives the
+real general solution
+\[
+\boxed{y(t)=e^{\alpha t}
+\bigl(C_1\cos\beta t+C_2\sin\beta t\bigr).}
+\]
+The oscillation period is \(2\pi/\beta\). The factor
+\(e^{\alpha t}\) is an amplitude envelope, so the sign of
+\(\alpha\) determines long-term growth or decay.
+
+\subsection{Example: Damped Oscillation}
+\textbf{Adapted from Boyce et al., 11th ed., \S3.3, Problem 8.}
+Solve \(y''+6y'+13y=0\).
+\begin{solution}
+The characteristic equation has roots
+\[
+r=\frac{-6\pm\sqrt{36-52}}{2}=-3\pm2i.
+\]
+Therefore
+\[
+\boxed{y(t)=e^{-3t}\bigl(C_1\cos2t+C_2\sin2t\bigr).}
+\]
+The solution oscillates with period \(\pi\), while its amplitude
+shrinks like \(e^{-3t}\).
+\end{solution}
+
+\subsection{Example: Growing Oscillation with Initial Data}
+\textbf{Adapted from Boyce et al., 11th ed., \S3.3, Problem 13.}
+Solve
+\[
+y''-2y'+5y=0,\qquad y(\pi/2)=0,\qquad y'(\pi/2)=2.
+\]
+\begin{solution}
+The roots are \(1\pm2i\). Center the solution at
+\(t_0=\pi/2\) by writing \(s=t-\pi/2\):
+\[
+y=e^s(A\cos2s+B\sin2s).
+\]
+At \(s=0\), \(y=A=0\) and \(y'=A+2B=2\), hence \(B=1\). Thus
+\[
+\boxed{y(t)=e^{t-\pi/2}\sin\bigl(2(t-\pi/2)\bigr).}
+\]
+It crosses zero periodically, but its oscillation envelope grows as
+\(t\) increases because the characteristic roots have positive real
+part.
+\end{solution}
+\end{document}

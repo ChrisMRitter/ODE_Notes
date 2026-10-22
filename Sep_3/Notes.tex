@@ -1,0 +1,139 @@
+\documentclass[11pt]{article}
+
+% ============================================================
+% Packages
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat=1.18}
+
+% ============================================================
+% Document Formatting
+% ============================================================
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+% ============================================================
+% List Formatting
+% ============================================================
+\setlist[enumerate]{
+    leftmargin=2em,
+    itemsep=0.25em
+}
+
+% ============================================================
+% Solution Environment
+% ============================================================
+\newenvironment{solution}
+    {\par\noindent\textbf{Solution.}\par}
+    {\par}
+
+% ============================================================
+% Link Styling
+% ============================================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan
+}
+
+% ============================================================
+% Metadata
+% ============================================================
+\title{Ordinary Differential Equations: Abridged Notes}
+\author{Chris Ritter}
+\date{September 3, 2026}
+
+% ============================================================
+% Document
+% ============================================================
+
+\begin{document}
+\maketitle
+\begin{center}
+\small\emph{These abridged notes were reconstructed afterward because I did not take
+direct notes during class. They are not a record of the actual lecture.}
+\end{center}
+\tableofcontents
+\newpage
+
+\section{Topic Summary}
+This reconstruction continues first-order modeling and introduces the
+question of where solutions are guaranteed to exist. A model identifies
+a changing quantity, balances its inflow and outflow, and then applies
+an initial condition. For a linear equation, continuity of its
+coefficients gives a unique solution on the interval containing the
+initial point where those coefficients remain continuous. Nonlinear
+models can require separate existence and uniqueness checks.
+
+\section{Modeling with a Balance Law}
+For an amount \(y(t)\) in a well-mixed tank,
+\[
+\boxed{\frac{dy}{dt}=\text{rate in}-\text{rate out}.}
+\]
+The outgoing concentration is the amount divided by the current
+volume. If inflow and outflow rates agree, the volume stays constant.
+This equation may be linear or nonlinear, depending on the rates.
+
+\subsection{Example: Rinsing a Dye Tank}
+\textbf{Adapted from Boyce et al., 11th ed., \S2.3, Problem 1.}
+A 200-liter tank initially contains dye at 1 gram per liter. Fresh
+water enters and mixed liquid leaves at 2 liters per minute. When is
+the dye concentration 1\% of its initial value?
+\begin{solution}
+Let \(y(t)\) be grams of dye. The initial amount is 200 grams, and
+the volume remains 200 liters. There is no incoming dye, while dye
+leaves at rate \(2(y/200)=y/100\) grams per minute. Thus
+\[
+y'=-\frac{y}{100},\qquad y(0)=200.
+\]
+Separation gives \(y(t)=200e^{-t/100}\), so the concentration is
+\(y/200=e^{-t/100}\) grams per liter. Setting it equal to 0.01 gives
+\[
+e^{-t/100}=0.01
+\quad\Longrightarrow\quad
+\boxed{t=100\ln100\approx460.5\text{ min}\approx7.68\text{ hr}.}
+\]
+\end{solution}
+
+\section{Linear and Nonlinear Equations}
+The first-order equation \(y'+p(t)y=g(t)\) is linear: \(y\) and its
+derivative occur only to the first power and are not multiplied
+together. Equations such as \(y'=y^2\) are nonlinear. A linear
+initial-value problem has a unique solution on any interval containing
+its initial point where \(p\) and \(g\) are continuous. This theorem
+does not automatically extend across a zero of the coefficient of
+\(y'\) before the equation is divided into standard form.
+
+\subsection{Example: An Interval of Guaranteed Existence}
+\textbf{Adapted from Boyce et al., 11th ed., \S2.4, Problem 1.}
+For
+\[
+(t-3)y'+(\ln t)y=2t,\qquad y(1)=2,
+\]
+find an interval on which the linear theorem guarantees a unique
+solution, without solving the equation.
+\begin{solution}
+For \(t\ne3\), the standard form is
+\[
+y'+\frac{\ln t}{t-3}y=\frac{2t}{t-3}.
+\]
+The logarithm requires \(t>0\), and both coefficients have a
+singularity at \(t=3\). The largest interval containing \(t_0=1\)
+on which both coefficients are continuous is
+\[
+\boxed{(0,3).}
+\]
+This is the interval guaranteed by the theorem; the calculation does
+not claim that every solution must fail at its endpoints.
+\end{solution}
+\end{document}

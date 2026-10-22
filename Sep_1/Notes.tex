@@ -1,0 +1,1286 @@
+\documentclass[11pt]{article}
+
+% ============================================================
+% Packages
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat=1.18}
+
+% ============================================================
+% Document Formatting
+% ============================================================
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+% ============================================================
+% List Formatting
+% ============================================================
+\setlist[enumerate]{
+    leftmargin=2em,
+    itemsep=0.25em
+}
+
+% ============================================================
+% Solution Environment
+% ============================================================
+\newenvironment{solution}
+    {\par\noindent\textbf{Solution.}\par}
+    {\par}
+
+% ============================================================
+% Link Styling
+% ============================================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan
+}
+
+% ============================================================
+% Metadata
+% ============================================================
+\title{Ordinary Differential Equations}
+\author{Chris Ritter}
+\date{September 1, 2026}
+
+% ============================================================
+% Document
+% ============================================================
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{First-Order Differential Equations}
+% ============================================================
+
+A first-order differential equation involves an unknown function and
+its first derivative.
+
+Some important types of first-order differential equations are:
+
+\begin{itemize}
+    \item Linear equations
+    \item Separable equations
+    \item Homogeneous equations
+\end{itemize}
+
+% ------------------------------------------------------------
+\subsection{Linear Differential Equations}
+% ------------------------------------------------------------
+
+A first-order linear differential equation has the form
+
+\[
+\frac{dy}{dt} + p(t)y = g(t).
+\]
+
+Equivalently,
+
+\[
+\frac{dy}{dt} = -p(t)y + g(t).
+\]
+
+The standard method for solving a linear equation is the
+\textbf{integrating factor method}.
+
+The integrating factor is
+
+\[
+\mu(t)
+=
+e^{\int p(t)\,dt}.
+\]
+
+Multiplying the differential equation by \(\mu(t)\) gives
+
+\[
+\mu(t)y' + \mu(t)p(t)y
+=
+\mu(t)g(t).
+\]
+
+By construction,
+
+\[
+\frac{d}{dt}\left(\mu(t)y\right)
+=
+\mu(t)y' + \mu'(t)y
+=
+\mu(t)y' + \mu(t)p(t)y.
+\]
+
+Therefore,
+
+\[
+\frac{d}{dt}\left(\mu(t)y\right)
+=
+\mu(t)g(t).
+\]
+
+Integrating gives
+
+\[
+\mu(t)y
+=
+\int \mu(t)g(t)\,dt + C.
+\]
+
+Hence,
+
+\[
+\boxed{
+y(t)
+=
+\frac{1}{\mu(t)}
+\left(
+\int \mu(t)g(t)\,dt + C
+\right).
+}
+\]
+
+% ------------------------------------------------------------
+\subsection{Separable Differential Equations}
+% ------------------------------------------------------------
+
+A differential equation is \textbf{separable} if it can be written in
+the form
+
+\[
+\frac{dy}{dx}
+=
+\frac{M(x)}{N(y)}.
+\]
+
+Rearranging gives
+
+\[
+N(y)\,dy = M(x)\,dx.
+\]
+
+Integrating both sides gives
+
+\[
+\int N(y)\,dy
+=
+\int M(x)\,dx.
+\]
+
+This generally produces an \textbf{implicit solution}.
+
+Thus, the basic procedure is
+
+\[
+\boxed{
+\frac{dy}{dx}
+=
+\frac{M(x)}{N(y)}
+\quad\Longrightarrow\quad
+N(y)\,dy=M(x)\,dx
+\quad\Longrightarrow\quad
+\int N(y)\,dy
+=
+\int M(x)\,dx.
+}
+\]
+
+% ------------------------------------------------------------
+\subsection{Homogeneous Differential Equations}
+% ------------------------------------------------------------
+
+A first-order differential equation is homogeneous if it can be
+written in the form
+
+\[
+\frac{dy}{dx}
+=
+F\left(\frac{y}{x}\right).
+\]
+
+The standard substitution is
+
+\[
+v=\frac{y}{x}.
+\]
+
+Since
+
+\[
+y=xv,
+\]
+
+differentiating with respect to \(x\) gives
+
+\[
+\frac{dy}{dx}
+=
+v+x\frac{dv}{dx}.
+\]
+
+Substituting this into the original differential equation gives an
+equation involving \(v\) and \(x\). This equation is often separable.
+
+Thus,
+
+\[
+\boxed{
+v=\frac{y}{x}
+}
+\]
+
+transforms a first-order homogeneous equation into a separable
+equation.
+
+% ============================================================
+\section{Modeling with First-Order Equations}
+% ============================================================
+
+Differential equations are frequently used to construct mathematical
+models of real-world systems.
+
+A general modeling process is:
+
+\begin{enumerate}
+    \item \textbf{Construct the model.}
+    \item \textbf{Analyze the model.}
+    \item \textbf{Compare the model with data and/or make predictions.}
+\end{enumerate}
+
+The first step is to identify the quantity being modeled.
+
+For example, if \(A(t)\) represents the amount of some quantity at
+time \(t\), then its rate of change can often be expressed as
+
+\[
+\boxed{
+\frac{dA}{dt}
+=
+\text{sum of gain rates}
+-
+\text{sum of loss rates}.
+}
+\]
+
+This principle is especially useful for population models and
+mixing problems.
+
+% ============================================================
+\section{Population Model}
+% ============================================================
+
+\subsection{Problem}
+
+An insect population in a region will increase at a rate proportional
+to its current size. In the absence of any external factors, the
+population triples in two weeks.
+
+On any given day, there is a net migration of \(15\) insects into the
+region, \(16\) insects are eaten by birds, and \(7\) insects die of
+natural causes.
+
+If initially there are \(100\) insects in the area, set up a
+differential equation model to study whether this population will
+survive. If not, estimate when the insects die out.
+
+% ------------------------------------------------------------
+\subsection{Step 1: Identify the Population}
+% ------------------------------------------------------------
+
+Let
+
+\[
+p(t)
+\]
+
+denote the insect population at time \(t\), measured in days.
+
+The initial condition is
+
+\[
+\boxed{p(0)=100.}
+\]
+
+% ------------------------------------------------------------
+\subsection{Step 2: Model the Natural Population Growth}
+% ------------------------------------------------------------
+
+The statement
+
+\[
+\text{``population increases at a rate proportional to its current size''}
+\]
+
+means
+
+\[
+\frac{dp}{dt}=rp,
+\]
+
+where
+
+\[
+r>0
+\]
+
+is a constant of proportionality.
+
+This is the standard exponential growth model.
+
+Separating variables gives
+
+\[
+\frac{1}{p}\,dp=r\,dt.
+\]
+
+Integrating,
+
+\[
+\int \frac{1}{p}\,dp
+=
+\int r\,dt,
+\]
+
+so
+
+\[
+\ln|p|=rt+C.
+\]
+
+Exponentiating,
+
+\[
+p=Ce^{rt}.
+\]
+
+Using \(p(0)=p_0\),
+
+\[
+p_0=Ce^0=C.
+\]
+
+Therefore,
+
+\[
+\boxed{
+p(t)=p_0e^{rt}.
+}
+\]
+
+% ------------------------------------------------------------
+\subsection{Step 3: Determine the Growth Constant}
+% ------------------------------------------------------------
+
+In the absence of external factors, the population triples in
+two weeks.
+
+Since \(t\) is measured in days,
+
+\[
+p(14)=3p(0).
+\]
+
+Using the exponential model,
+
+\[
+p(14)=p_0e^{14r}.
+\]
+
+Therefore,
+
+\[
+p_0e^{14r}=3p_0.
+\]
+
+Canceling \(p_0\),
+
+\[
+e^{14r}=3.
+\]
+
+Taking the natural logarithm,
+
+\[
+14r=\ln(3).
+\]
+
+Thus,
+
+\[
+\boxed{
+r=\frac{\ln(3)}{14}.
+}
+\]
+
+% ------------------------------------------------------------
+\subsection{Step 4: Account for External Factors}
+% ------------------------------------------------------------
+
+There are three external effects:
+
+\begin{itemize}
+    \item \(15\) insects enter the region per day.
+    \item \(16\) insects are eaten by birds per day.
+    \item \(7\) insects die naturally per day.
+\end{itemize}
+
+The total gain rate is
+
+\[
+15.
+\]
+
+The total loss rate is
+
+\[
+16+7=23.
+\]
+
+Therefore, the net external rate is
+
+\[
+15-23=-8.
+\]
+
+Thus,
+
+\[
+\boxed{
+\frac{dp}{dt}=rp-8.
+}
+\]
+
+Equivalently,
+
+\[
+\boxed{
+\frac{dp}{dt}-rp=-8.
+}
+\]
+
+This is a first-order linear differential equation.
+
+% ------------------------------------------------------------
+\subsection{Step 5: Solve the Differential Equation}
+% ------------------------------------------------------------
+
+The equation is
+
+\[
+p'-rp=-8.
+\]
+
+Comparing this with
+
+\[
+p'+a(t)p=g(t),
+\]
+
+we have
+
+\[
+a(t)=-r.
+\]
+
+Therefore, the integrating factor is
+
+\[
+\mu(t)
+=
+e^{\int -r\,dt}
+=
+e^{-rt}.
+\]
+
+Multiplying the differential equation by \(e^{-rt}\),
+
+\[
+e^{-rt}p'-re^{-rt}p
+=
+-8e^{-rt}.
+\]
+
+The left-hand side is
+
+\[
+\frac{d}{dt}
+\left(
+e^{-rt}p
+\right).
+\]
+
+Therefore,
+
+\[
+\frac{d}{dt}
+\left(
+e^{-rt}p
+\right)
+=
+-8e^{-rt}.
+\]
+
+Integrating,
+
+\[
+e^{-rt}p
+=
+\int -8e^{-rt}\,dt+C.
+\]
+
+Since
+
+\[
+\int -8e^{-rt}\,dt
+=
+\frac{8}{r}e^{-rt},
+\]
+
+we obtain
+
+\[
+e^{-rt}p
+=
+\frac{8}{r}e^{-rt}+C.
+\]
+
+Multiplying by \(e^{rt}\),
+
+\[
+p(t)
+=
+\frac{8}{r}
++
+Ce^{rt}.
+\]
+
+Thus, the general solution is
+
+\[
+\boxed{
+p(t)=\frac{8}{r}+Ce^{rt}.
+}
+\]
+
+% ------------------------------------------------------------
+\subsection{Step 6: Apply the Initial Condition}
+% ------------------------------------------------------------
+
+We know that
+
+\[
+p(0)=100.
+\]
+
+Therefore,
+
+\[
+100
+=
+\frac{8}{r}+C.
+\]
+
+Hence,
+
+\[
+C
+=
+100-\frac{8}{r}.
+\]
+
+Since
+
+\[
+r=\frac{\ln(3)}{14},
+\]
+
+we have
+
+\[
+\frac{8}{r}
+=
+\frac{8(14)}{\ln(3)}
+=
+\frac{112}{\ln(3)}
+\approx 101.95.
+\]
+
+Therefore,
+
+\[
+C
+\approx
+100-101.95
+=
+-1.95.
+\]
+
+The population function is therefore
+
+\[
+\boxed{
+p(t)
+=
+101.95
+-
+1.95e^{(\ln(3)/14)t}.
+}
+\]
+
+% ------------------------------------------------------------
+\subsection{Step 7: Analyze the Population}
+% ------------------------------------------------------------
+
+Because
+
+\[
+r=\frac{\ln(3)}{14}>0,
+\]
+
+we have
+
+\[
+e^{rt}\to\infty
+\qquad\text{as }t\to\infty.
+\]
+
+Since the coefficient of the exponential term is negative,
+
+\[
+-1.95e^{rt}\to-\infty.
+\]
+
+Therefore,
+
+\[
+\boxed{
+p(t)\to-\infty
+\qquad\text{as }t\to\infty.
+}
+\]
+
+Of course, a negative population is not physically meaningful.
+Instead, the model tells us that the population reaches zero at
+some finite time.
+
+We therefore solve
+
+\[
+p(t^*)=0.
+\]
+
+Thus,
+
+\[
+101.95-1.95e^{(\ln(3)/14)t^*}=0.
+\]
+
+Rearranging,
+
+\[
+1.95e^{(\ln(3)/14)t^*}=101.95,
+\]
+
+so
+
+\[
+e^{(\ln(3)/14)t^*}
+=
+\frac{101.95}{1.95}.
+\]
+
+Taking the natural logarithm,
+
+\[
+\frac{\ln(3)}{14}t^*
+=
+\ln\left(\frac{101.95}{1.95}\right).
+\]
+
+Therefore,
+
+\[
+\boxed{
+t^*
+=
+\frac{14}{\ln(3)}
+\ln\left(\frac{101.95}{1.95}\right).
+}
+\]
+
+Numerically,
+
+\[
+\boxed{
+t^*\approx 40.2\text{ days}.
+}
+\]
+
+Thus, according to this model, the population dies out after
+approximately \(40\) days.
+
+% ------------------------------------------------------------
+\subsection{Equilibrium Population}
+% ------------------------------------------------------------
+
+An equilibrium population occurs when
+
+\[
+\frac{dp}{dt}=0.
+\]
+
+For
+
+\[
+\frac{dp}{dt}=rp-8,
+\]
+
+we set
+
+\[
+rp-8=0.
+\]
+
+Therefore,
+
+\[
+p^*=\frac{8}{r}.
+\]
+
+Using
+
+\[
+r=\frac{\ln(3)}{14},
+\]
+
+we obtain
+
+\[
+\boxed{
+p^*
+=
+\frac{112}{\ln(3)}
+\approx 101.95.
+}
+\]
+
+This equilibrium is important because it determines the long-term
+behavior of the model.
+
+Since
+
+\[
+p(0)=100<101.95=p^*,
+\]
+
+the population begins below equilibrium.
+
+Because \(r>0\), populations below the equilibrium decrease toward
+zero and eventually reach zero in the physical interpretation of the
+model.
+
+% ============================================================
+\section{Mixing Problems}
+% ============================================================
+
+Mixing problems model the amount of a substance in a container when
+a solution enters and leaves the container.
+
+The central idea is again
+
+\[
+\boxed{
+\frac{dQ}{dt}
+=
+\text{rate in}
+-
+\text{rate out},
+}
+\]
+
+where \(Q(t)\) is the amount of substance in the tank.
+
+For a salt solution,
+
+\[
+\boxed{
+\frac{dQ}{dt}
+=
+(\text{salt concentration in})
+(\text{flow rate in})
+-
+(\text{salt concentration out})
+(\text{flow rate out}).
+}
+\]
+
+% ------------------------------------------------------------
+\subsection{Salt Tank Example}
+% ------------------------------------------------------------
+
+At \(t=0\), a tank contains \(100\) gallons of water.
+
+A solution containing
+
+\[
+\frac14\text{ lb of salt per gallon}
+\]
+
+enters the tank at a rate of \(r\) gallons per minute.
+
+The tank is well stirred, and the solution leaves the tank at the
+same rate \(r\) gallons per minute.
+
+Let
+
+\[
+Q(t)
+\]
+
+denote the amount of salt in the tank at time \(t\), measured in
+pounds.
+
+Suppose
+
+\[
+Q(0)=Q_0.
+\]
+
+We want to:
+
+\begin{enumerate}
+    \item Find \(Q(t)\), the amount of salt in the tank at any time.
+    \item Find the limiting amount of salt in the tank.
+\end{enumerate}
+
+% ------------------------------------------------------------
+\subsection{Step 1: Determine the Rate of Salt Entering}
+% ------------------------------------------------------------
+
+The incoming solution has concentration
+
+\[
+\frac14\frac{\text{lb}}{\text{gal}}.
+\]
+
+The flow rate is
+
+\[
+r\frac{\text{gal}}{\text{min}}.
+\]
+
+Therefore,
+
+\[
+\text{rate in}
+=
+\left(
+\frac14\frac{\text{lb}}{\text{gal}}
+\right)
+\left(
+r\frac{\text{gal}}{\text{min}}
+\right).
+\]
+
+The gallons cancel, leaving
+
+\[
+\boxed{
+\text{rate in}=\frac{r}{4}\frac{\text{lb}}{\text{min}}.
+}
+\]
+
+% ------------------------------------------------------------
+\subsection{Step 2: Determine the Rate of Salt Leaving}
+% ------------------------------------------------------------
+
+Because the tank is well stirred, the concentration of salt leaving
+the tank is the same as the concentration inside the tank.
+
+At time \(t\), the tank contains \(Q(t)\) pounds of salt and
+\(100\) gallons of solution.
+
+Therefore, the concentration inside the tank is
+
+\[
+\boxed{
+\frac{Q(t)}{100}
+\frac{\text{lb}}{\text{gal}}.
+}
+\]
+
+The solution leaves at a rate of
+
+\[
+r\frac{\text{gal}}{\text{min}}.
+\]
+
+Thus,
+
+\[
+\text{rate out}
+=
+\left(
+\frac{Q(t)}{100}
+\frac{\text{lb}}{\text{gal}}
+\right)
+\left(
+r\frac{\text{gal}}{\text{min}}
+\right).
+\]
+
+Therefore,
+
+\[
+\boxed{
+\text{rate out}
+=
+\frac{rQ}{100}
+\frac{\text{lb}}{\text{min}}.
+}
+\]
+
+% ------------------------------------------------------------
+\subsection{Step 3: Construct the Differential Equation}
+% ------------------------------------------------------------
+
+Using
+
+\[
+\frac{dQ}{dt}
+=
+\text{rate in}-\text{rate out},
+\]
+
+we obtain
+
+\[
+\frac{dQ}{dt}
+=
+\frac{r}{4}
+-
+\frac{rQ}{100}.
+\]
+
+Therefore,
+
+\[
+\boxed{
+\frac{dQ}{dt}
+=
+\frac{r}{4}
+-
+\frac{r}{100}Q.
+}
+\]
+
+Equivalently,
+
+\[
+\boxed{
+\frac{dQ}{dt}
++
+\frac{r}{100}Q
+=
+\frac{r}{4}.
+}
+\]
+
+This is a first-order linear differential equation.
+
+% ------------------------------------------------------------
+\subsection{Step 4: Solve the Differential Equation}
+% ------------------------------------------------------------
+
+The equation has the form
+
+\[
+Q'+p(t)Q=g(t),
+\]
+
+where
+
+\[
+p(t)=\frac{r}{100}
+\]
+
+and
+
+\[
+g(t)=\frac{r}{4}.
+\]
+
+The integrating factor is
+
+\[
+\mu(t)
+=
+e^{\int (r/100)\,dt}
+=
+e^{rt/100}.
+\]
+
+Multiplying through by the integrating factor,
+
+\[
+e^{rt/100}Q'
++
+\frac{r}{100}e^{rt/100}Q
+=
+\frac{r}{4}e^{rt/100}.
+\]
+
+The left-hand side becomes
+
+\[
+\frac{d}{dt}
+\left(
+e^{rt/100}Q
+\right).
+\]
+
+Therefore,
+
+\[
+\frac{d}{dt}
+\left(
+e^{rt/100}Q
+\right)
+=
+\frac{r}{4}e^{rt/100}.
+\]
+
+Integrating,
+
+\[
+e^{rt/100}Q
+=
+\int
+\frac{r}{4}e^{rt/100}\,dt
++
+C.
+\]
+
+Since
+
+\[
+\int
+\frac{r}{4}e^{rt/100}\,dt
+=
+25e^{rt/100},
+\]
+
+we obtain
+
+\[
+e^{rt/100}Q
+=
+25e^{rt/100}+C.
+\]
+
+Thus,
+
+\[
+\boxed{
+Q(t)=25+Ce^{-rt/100}.
+}
+\]
+
+% ------------------------------------------------------------
+\subsection{Step 5: Apply the Initial Condition}
+% ------------------------------------------------------------
+
+Since
+
+\[
+Q(0)=Q_0,
+\]
+
+we have
+
+\[
+Q_0=25+C.
+\]
+
+Therefore,
+
+\[
+C=Q_0-25.
+\]
+
+The solution is
+
+\[
+\boxed{
+Q(t)
+=
+25+(Q_0-25)e^{-rt/100}.
+}
+\]
+
+% ------------------------------------------------------------
+\subsection{Step 6: Find the Limiting Amount}
+% ------------------------------------------------------------
+
+To find the limiting amount, consider
+
+\[
+\lim_{t\to\infty}Q(t).
+\]
+
+Since \(r>0\),
+
+\[
+e^{-rt/100}\to0
+\qquad\text{as }t\to\infty.
+\]
+
+Therefore,
+
+\[
+\lim_{t\to\infty}Q(t)
+=
+25.
+\]
+
+Hence,
+
+\[
+\boxed{
+\lim_{t\to\infty}Q(t)=25\text{ lb}.
+}
+\]
+
+This makes sense physically because the incoming solution has
+concentration
+
+\[
+\frac14\text{ lb/gal},
+\]
+
+and the tank contains \(100\) gallons. Therefore, at equilibrium,
+
+\[
+Q^*
+=
+\left(
+\frac14\frac{\text{lb}}{\text{gal}}
+\right)
+(100\text{ gal})
+=
+25\text{ lb}.
+\]
+
+Thus, the equilibrium amount is exactly the amount corresponding
+to the concentration of the incoming solution.
+
+% ============================================================
+\section{Key Modeling Principles}
+% ============================================================
+
+The examples above illustrate several important principles.
+
+\subsection{General Balance Law}
+
+For many models,
+
+\[
+\boxed{
+\text{Rate of change}
+=
+\text{Rate in}
+-
+\text{Rate out}.
+}
+\]
+
+More generally,
+
+\[
+\boxed{
+\frac{dA}{dt}
+=
+\text{sum of gain rates}
+-
+\text{sum of loss rates}.
+}
+\]
+
+\subsection{Population Models}
+
+A population with growth proportional to its current size satisfies
+
+\[
+\boxed{
+p'=rp.
+}
+\]
+
+If there is also a constant net external contribution \(k\), then
+
+\[
+\boxed{
+p'=rp+k.
+}
+\]
+
+\subsection{Mixing Models}
+
+For a well-stirred tank,
+
+\[
+\boxed{
+Q'
+=
+(\text{incoming concentration})
+(\text{incoming flow rate})
+-
+(\text{tank concentration})
+(\text{outgoing flow rate}).
+}
+\]
+
+The key assumption is that the tank is \textbf{well stirred}, so the
+concentration of the material leaving the tank is equal to the
+concentration throughout the tank.
+
+\subsection{Equilibrium}
+
+An equilibrium occurs when the quantity is not changing:
+
+\[
+\boxed{
+\frac{dA}{dt}=0.
+}
+\]
+
+For an equation
+
+\[
+A'=f(A),
+\]
+
+an equilibrium \(A^*\) satisfies
+
+\[
+\boxed{
+f(A^*)=0.
+}
+\]
+
+Equilibria are useful for understanding the long-term behavior of
+solutions without necessarily solving the differential equation.
+
+\end{document}
